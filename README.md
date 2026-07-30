@@ -29,6 +29,36 @@ React 18 + ReactDOM from `unpkg.com` at runtime, so the pages need public intern
 excludes any directory whose name starts with `_` — without this empty file the entire `_ds/`
 design system 404s and the site renders unstyled.
 
+## Updating the site after a new Claude design export
+
+**Do not drag export files in by hand.** An export is missing `.nojekyll` (site renders
+unstyled without it), `CNAME` (custom domain detaches), and every `<head>` tag — and if the
+`_ds/<uuid>/` folder gets a new UUID, the old one lingers as dead weight. Use the script;
+it handles all four:
+
+```bash
+cd ~/dev/thebenari-site
+git status                      # must be clean — the script refuses a dirty tree
+./scripts/sync-from-export.sh ~/Downloads/"<the new export>.zip"
+python3 -m http.server 8899     # preview at http://127.0.0.1:8899 before publishing
+```
+
+Then publish:
+
+```bash
+git add -A && git commit -m "design: <what changed>" && git push
+```
+
+The script is idempotent — running it twice on the same export changes nothing.
+
+**Page titles and social-preview text live in `scripts/page_meta.py`, not in the HTML.**
+The HTML is overwritten by every export; that file is not. Edit copy there, then re-run
+`python3 scripts/apply_meta.py`.
+
+If a future export changes its `<head>` structure, `apply_meta.py` prints
+`SKIPPED … runtime anchor not found` and exits non-zero rather than silently publishing
+untitled pages — update `ANCHOR` in that script if that happens.
+
 ## Deploying
 
 Push to `main`. GitHub Pages rebuilds automatically, usually within a minute.
