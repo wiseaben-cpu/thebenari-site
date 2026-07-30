@@ -1,0 +1,55 @@
+:root{
+/* base palette — taken verbatim from the source deck + logo files */
+--ink:#241E1A;            /* dark ground + type — espresso, warm neutral so --blue is the only chroma */
+--ink-alt-slate:#1E2733;  /* alternate ink: cooler, softer contrast */
+--ink-alt-navy:#0B1B2E;   /* alternate ink: same hue family as --blue */
+--paper:#EDE9E4;          /* deck light ground */
+--paper-warm:#FBF4EF;     /* logo cream */
+--blue:#0352BA;           /* deck blue ground + blue display type */
+--blue-mark:var(--blue);  /* legacy alias — logo blue is now the one blue */
+--red:#E3170A;            /* accent only — large elements, never small text */
+--red-12:rgba(227,23,10,.12);
+--white:#FFFFFF;
+--ink-80:rgba(36,30,26,.8);
+--ink-55:rgba(36,30,26,.55);
+--ink-14:rgba(36,30,26,.14);
+--paper-88:rgba(237,233,228,.88);
+--paper-70:rgba(237,233,228,.7);
+--paper-45:rgba(237,233,228,.45);
+--paper-18:rgba(237,233,228,.18);
+--blue-12:rgba(3,82,186,.12);
+--accent:var(--red);
+
+/* semantic — surfaces */
+--surface-page:var(--paper);
+--surface-page-dark:var(--ink);
+--surface-page-blue:var(--blue);
+--surface-card:var(--paper-warm);
+--surface-card-dark:#302722;
+--surface-inset:rgba(36,30,26,.05);
+
+/* semantic — text */
+--text-body:var(--ink);
+--text-muted:var(--ink-55);
+--text-display:var(--ink);
+--text-on-dark:var(--paper);
+--text-on-dark-muted:var(--paper-88);   /* .88 clears 4.5:1 on blue as well as espresso */
+--text-on-blue:var(--paper);
+--text-on-blue-muted:var(--paper-88);
+--text-accent:var(--blue);
+
+/* semantic — lines + interaction */
+--line:var(--ink-14);
+--line-on-dark:var(--paper-18);
+--focus-ring:var(--blue);
+--action-fill:var(--ink);
+--action-fill-hover:var(--paper);      /* hover inverts the fill */
+--action-text-hover:var(--ink);
+--action-fill-press:var(--blue);       /* press goes blue */
+--action-text-press:var(--paper);
+--action-text:var(--paper);
+--action-accent-fill:var(--blue);
+--action-accent-hover:#02409A;
+}
+[data-theme="dark"]{--surface-page:var(--ink);--surface-card:var(--surface-card-dark);--text-body:var(--paper);--text-muted:var(--paper-88);--text-display:var(--paper);--line:var(--line-on-dark);--action-fill:var(--paper);--action-text:var(--ink);--action-fill-hover:var(--ink);--action-text-hover:var(--paper);--surface-inset:rgba(237,233,228,.08)}
+[data-theme="blue"]{--surface-page:var(--blue);--surface-card:var(--paper-warm);--text-body:var(--paper);--text-muted:var(--paper-88);--text-display:var(--paper);--line:var(--paper-18);--action-fill:var(--paper);--action-text:var(--blue);--action-fill-hover:var(--ink);--action-text-hover:var(--paper)}

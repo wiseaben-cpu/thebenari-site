@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benari — An AI chief of staff you text | Benji Wise</title>
+<meta name="description" content="Benari: an always-on personal and executive assistant you text. An orchestrator agent routes to specialized domain sub-agents, each backed by its own MCP server.">
+<link rel="canonical" href="https://thebenari.com/benari.html">
+<link rel="icon" href="assets/flock-blue.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The BenAri">
+<meta property="og:url" content="https://thebenari.com/benari.html">
+<meta property="og:title" content="Benari — An AI chief of staff you text">
+<meta property="og:description" content="An always-on personal and executive assistant you text, built on a stateless Claude brain and a registry of MCP-backed sub-agents.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Benari — An AI chief of staff you text">
+<meta name="twitter:description" content="An always-on personal and executive assistant you text, built on a stateless Claude brain and a registry of MCP-backed sub-agents.">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/colors.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/typography.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/shape.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/motion.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/styles.css">
+<style>
+body{margin:0;background:#0352BA}
+a{color:#EDE9E4;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:4px}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dot{0%,60%,100%{opacity:.3}30%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#0352BA;color:#EDE9E4;font-family:Archivo,'Helvetica Neue',Helvetica,sans-serif;-webkit-font-smoothing:antialiased;box-sizing:border-box;display:grid;grid-template-rows:auto 1fr auto">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 56px;border-bottom:1px solid rgba(237,233,228,.18)">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:12px">
+      <img src="assets/flock-cream.svg" alt="" style="width:24px;height:24px;object-fit:contain">
+      <span style="font-weight:900;font-size:15px;letter-spacing:-.035em;text-transform:uppercase">BenAri</span>
+    </a>
+    <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">01 — Built to be used</span>
+  </header>
+
+  <main style="display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center;padding:56px 56px 40px;max-width:1360px;margin:0 auto;width:100%;box-sizing:border-box">
+
+    <section style="display:grid;gap:26px;align-content:center">
+      <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88);display:inline-flex;align-items:center;gap:12px"><span style="background:#EDE9E4;color:#0352BA;font-weight:700;padding:4px 10px">Demo</span>Scripted sample data</span>
+      <h1 style="margin:0;font-weight:900;font-size:clamp(46px,5.2vw,86px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;max-width:15ch">An AI chief of staff you text</h1>
+      <p style="margin:0;font-size:18px;line-height:1.45;max-width:52ch;color:rgba(237,233,228,.88);text-wrap:pretty">A stateless Claude brain reads one message, routes it to the right specialist — calendar, email, tasks, memory — and texts back like a person. A new skill is a new module, never a rewrite.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;max-width:46ch">
+        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">Multi-agent routing</span>
+        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">pgvector memory</span>
+        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">Confirm before send</span>
+        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">MCP tool servers</span>
+        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">Runs 24/7</span>
+      </div>
+      <div style="display:grid;gap:14px;border-top:2px solid rgba(237,233,228,.18);padding-top:22px;max-width:46ch">
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Two things to watch</span>
+        <p style="margin:0;font-size:15px;line-height:1.5;color:rgba(237,233,228,.88)">The confirmation gate before anything leaves the outbox, and the moment it writes a preference to memory. Nothing irreversible happens without a yes.</p>
+      </div>
+    </section>
+
+    <section style="display:flex;justify-content:center;align-items:center">
+      <div style="width: 352px; height: 706px; max-height: 78vh; padding: 12px; border-radius: 36px; box-sizing: border-box; box-shadow: 0 40px 90px -40px rgba(36,30,26,.8); background-color: var(--ink)">
+        <div style="width:100%;height:100%;border-radius:26px;overflow:hidden;background:#EDE9E4;display:flex;flex-direction:column;position:relative">
+          <div style="flex:none;background:#241E1A;color:#EDE9E4;padding:16px 16px 14px;display:flex;align-items:center;gap:12px">
+            <span style="width:36px;height:36px;border-radius:50%;flex:none;display:grid;place-items:center;background:#0352BA"><img src="assets/flock-cream.svg" alt="" style="width:20px;height:20px;object-fit:contain"></span>
+            <span style="display:grid;gap:2px">
+              <span style="font-weight:900;font-size:15px;letter-spacing:-.02em;text-transform:uppercase">Benari</span>
+              <span style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Online</span>
+            </span>
+            <span style="margin-left:auto;font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Today</span>
+          </div>
+
+          <div data-thread="1" style="flex:1;overflow-y:auto;padding:16px 14px 10px;display:flex;flex-direction:column;gap:8px">
+            <div data-typing="1" style="align-self:flex-start;display:none;gap:5px;align-items:center;background:#FBF4EF;border:1px solid rgba(36,30,26,.14);padding:12px 14px;border-radius:14px 14px 14px 3px">
+              <span style="width:6px;height:6px;border-radius:50%;background:rgba(36,30,26,.55);animation:dot 1.3s infinite"></span>
+              <span style="width:6px;height:6px;border-radius:50%;background:rgba(36,30,26,.55);animation:dot 1.3s .2s infinite"></span>
+              <span style="width:6px;height:6px;border-radius:50%;background:rgba(36,30,26,.55);animation:dot 1.3s .4s infinite"></span>
+            </div>
+          </div>
+
+          <button data-replay="1" type="button" style="position:absolute;left:50%;bottom:76px;transform:translateX(-50%);opacity:0;pointer-events:none;transition:opacity 200ms cubic-bezier(.2,0,0,1),background 200ms;font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:#EDE9E4;background:#0352BA;border:0;border-radius:999px;padding:11px 20px;min-height:44px;cursor:pointer" style-hover="background:#02409A" style-active="transform:translateX(-50%) scale(.985)">Replay</button>
+
+          <div style="flex:none;background:#FBF4EF;border-top:1px solid rgba(36,30,26,.14);padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <span style="flex:1;color:rgba(36,30,26,.55);font-size:13px">Message</span>
+            <span style="width:36px;height:36px;border-radius:50%;flex:none;background:#0352BA;color:#EDE9E4;display:grid;place-items:center;font-size:15px">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding:20px 56px;border-top:1px solid rgba(237,233,228,.18);font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">
+    <span>Interactive recreation · fictional data · production runs on WhatsApp via Twilio</span>
+    <a href="index.html">← Back to the work</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:750}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.thread = document.querySelector('[data-thread]');
+    this.typing = document.querySelector('[data-typing]');
+    this.replay = document.querySelector('[data-replay]');
+    if (!this.thread) return;
+    this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.script = [
+      { side: 'out', t: '9:02', html: 'morning — what’s my day look like?' },
+      { side: 'in', think: 900, t: '9:02', html: 'Morning. Here’s the shape of it:<br><br>• <b>9:30</b> Standup (15m)<br>• <b>12:00</b> Lunch w/ Priya Rao — Café Luca<br>• <b>3:00</b> Northwind pitch review <b style="color:#E3170A">— moved from tomorrow</b><br><br>3 tasks due. Want the email rundown too?' },
+      { side: 'out', t: '9:03', html: 'yeah hit me' },
+      { side: 'in', think: 1100, t: '9:03', html: '2 that actually need you:<br><br><b>1.</b> Marcus (legal) — signed MSA by EOD<br><b>2.</b> Dana replied on the investor update — wants Q3 numbers<br><br>The other 6 are FYI. I can draft either reply.' },
+      { side: 'out', t: '9:04', html: 'draft the one to dana — tell her I’ll send Q3 friday' },
+      { side: 'in', think: 1300, t: '9:04', html: 'Draft to <b>Dana Feld</b>:<br><br>“Hi Dana — the Q3 numbers are nearly final. I’ll have them to you Friday. Appreciate the patience. — B”<br><br>Send it? Reply <b style="background:rgba(3,82,186,.12);padding:1px 6px">YES</b> and it goes.' },
+      { side: 'out', t: '9:05', html: 'YES' },
+      { side: 'in', think: 850, t: '9:05', html: '<b>Sent to Dana.</b> Logged to the thread, task closed.' },
+      { side: 'out', t: '9:06', html: 'also remember priya prefers morning meetings' },
+      { side: 'in', think: 1000, t: '9:06', html: '<b>Saved to Priya Rao’s note</b> — “Prefers morning meetings.” I’ll factor that in next time I schedule with her.' },
+      { side: 'out', t: '9:06', html: 'you’re the best' },
+      { side: 'in', think: 700, t: '9:07', html: 'That’s the job.' }
+    ];
+    if (this.replay) this.replay.addEventListener('click', () => this.play());
+    this.play();
+  }
+
+  bubble(m) {
+    const out = m.side === 'out';
+    const el = document.createElement('div');
+    el.setAttribute('data-msg', '1');
+    el.style.cssText = [
+      'max-width:84%', 'padding:9px 12px 7px',
+      'border-radius:' + (out ? '14px 14px 3px 14px' : '14px 14px 14px 3px'),
+      'align-self:' + (out ? 'flex-end' : 'flex-start'),
+      'background:' + (out ? '#0352BA' : '#FBF4EF'),
+      'color:' + (out ? '#EDE9E4' : '#241E1A'),
+      out ? 'border:0' : 'border:1px solid rgba(36,30,26,.14)',
+      'font-size:13.5px', 'line-height:1.45', 'word-wrap:break-word',
+      this.reduce ? '' : 'animation:bubbleIn 260ms cubic-bezier(.16,.84,.44,1) both'
+    ].join(';');
+    const meta = document.createElement('span');
+    meta.style.cssText = 'display:block;margin-top:5px;font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;text-align:right;color:' + (out ? 'rgba(237,233,228,.88)' : 'rgba(36,30,26,.55)');
+    meta.textContent = m.t;
+    const body = document.createElement('span');
+    body.innerHTML = m.html;
+    el.appendChild(body);
+    el.appendChild(meta);
+    this.thread.insertBefore(el, this.typing);
+    this.thread.scrollTop = this.thread.scrollHeight;
+  }
+
+  async play() {
+    if (this._playing) { this._cancel = true; await this.wait(60); }
+    this._playing = true; this._cancel = false;
+    Array.from(this.thread.querySelectorAll('[data-msg]')).forEach((n) => n.remove());
+    if (this.replay) { this.replay.style.opacity = '0'; this.replay.style.pointerEvents = 'none'; }
+    if (this.typing) this.typing.style.display = 'none';
+    await this.wait(this.reduce ? 0 : 420);
+    for (const m of this.script) {
+      if (this._cancel) { this._playing = false; return; }
+      if (!this.reduce) {
+        if (m.side === 'in' && this.typing) {
+          this.typing.style.display = 'flex';
+          this.thread.scrollTop = this.thread.scrollHeight;
+          await this.wait(m.think || 900);
+          this.typing.style.display = 'none';
+        } else {
+          await this.wait(500);
+        }
+      }
+      if (this._cancel) { this._playing = false; return; }
+      this.bubble(m);
+      if (!this.reduce) await this.wait(240);
+    }
+    if (this.replay) { this.replay.style.opacity = '1'; this.replay.style.pointerEvents = 'auto'; }
+    this._playing = false;
+  }
+
+  wait(ms) { return new Promise((r) => { this._t = setTimeout(r, ms); }); }
+
+  componentWillUnmount() { this._cancel = true; clearTimeout(this._t); }
+}
+</script>
+</body>
+</html>

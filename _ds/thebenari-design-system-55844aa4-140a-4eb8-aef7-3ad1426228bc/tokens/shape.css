@@ -1,0 +1,15 @@
+:root{
+--radius-0:0px;
+--radius-sm:6px;
+--radius-md:12px;
+--radius-lg:24px;
+--radius-xl:32px;   /* the deck's big soft text panel */
+--radius-pill:999px;
+--border:1px solid var(--line);
+--border-heavy:2px solid var(--text-body);
+/* shadows are near-absent in the brand: flat grounds, one soft lift for
+   floating UI only */
+--shadow-none:none;
+--shadow-lift:0 18px 40px -24px rgba(36,30,26,.35);
+--shadow-overlay:0 32px 80px -32px rgba(36,30,26,.5);
+}

@@ -1,0 +1,10 @@
+:root{
+--ease-out:cubic-bezier(.22,.61,.36,1); /* @kind other */
+--ease-in-out:cubic-bezier(.6,0,.3,1); /* @kind other */
+--dur-fast:120ms; /* @kind other */
+--dur:200ms; /* @kind other */
+--dur-slow:420ms; /* @kind other */
+--dur-drift:16s; /* @kind other */ /* bird / marquee drift */
+--hover-shift:translateY(-2px); /* @kind other */
+--press-scale:.985; /* @kind other */
+}

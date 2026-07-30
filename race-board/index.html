@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northwind Race Board</title>
+<link rel="stylesheet" href="race.css">
+</head>
+<!--
+  PORTING TO THE CRM
+  This file becomes a Blade view. Only two things change:
+    1. the asset hrefs (race.css / race.js -> the CRM's public/ paths)
+    2. the data-* attributes below, which the Blade template fills in
+  Everything else — markup, CSS, JS — ships unchanged. See HANDOFF.md.
+
+  Config lives in data-* attributes, NOT an inline <script>: a strict
+  `script-src 'self'` CSP (ours, and the CRM's) blocks inline script, which would
+  silently drop the config and fall back to defaults. Attributes need no nonce.
+-->
+<body
+  data-endpoint="race.json"
+  data-poll="60"
+  data-heat="20"
+  data-theme="cars"
+  data-sound="on"
+  data-volume="0.7"
+  data-control=""
+  data-control-poll="3"
+  data-stale-hours="20"><!-- poll seconds; heat = seconds each heat holds the screen; sound=off to mute.
+       data-control = remote-control endpoint the board polls so a second tab
+       (/control) can drive the wall live. Omit it (as the CRM Blade view does
+       unless the CRM serves /api/control) and the board never polls — purely
+       additive. data-control-poll = how often (seconds) to check for a change.
+       data-stale-hours = age of newest deal before the "deals through" stamp goes amber.
+       20 clears the normal overnight feed gap (~19.5h); lower would false-alarm each morning.
+       data-theme = this week's costume; ids live in themes.js ("cars" is built
+       into race.js and is what any broken theme falls back to). Preview any
+       theme without a deploy: ?theme=sharks · check it with ?theme=sharks&audit=1 -->
+
+<div class="board" id="board">
+  <header class="hd">
+    <div class="hd-title">
+      <span class="hd-mark">Northwind</span>
+      <span class="hd-heat" id="heat-label">Buyers</span>
+    </div>
+    <span class="hd-rule"></span>
+    <div class="hd-stat">
+      <span class="lbl">Week</span>
+      <span class="val" id="week-label">—</span>
+    </div>
+    <span class="hd-rule"></span>
+    <div class="hd-stat">
+      <span class="lbl">Team to goal</span>
+      <span class="val" id="co-agp">—</span>
+    </div>
+    <span class="hd-rule"></span>
+    <!-- "Pace", not "Week elapsed": this is the weighted share of the week's AGP
+         that should be in by now, which is deliberately NOT the same as clock
+         time (Monday is only 9.4% of a week's AGP). Matches the PACE flag. -->
+    <div class="hd-stat">
+      <span class="lbl">Pace</span>
+      <span class="val" id="pace-label">—</span>
+    </div>
+    <span class="hd-spacer"></span>
+    <!-- Last window's winner for the page on screen (each heat carries its own,
+         filled by render()). Name + % of goal only — no dollars. -->
+    <div class="hd-winner" id="last-winner" hidden>
+      <span class="hd-winner-lbl">Last week&rsquo;s winner</span>
+      <span class="hd-winner-val">
+        <span class="hd-trophy" aria-hidden="true">&#127942;</span>
+        <span id="lw-name">—</span>
+        <span id="lw-pct" class="hd-winner-pct">—</span>
+      </span>
+    </div>
+    <span class="badge-mock" id="badge-mock" hidden>Demo data · sample data</span>
+    <!-- current time (big) + the feed's "deals through" cutoff beneath it, so a
+         viewer can tell a stale twice-daily feed from a broken board. -->
+    <div class="hd-time">
+      <span class="hd-clock" id="clock">—</span>
+      <span class="hd-fresh" id="data-through" hidden>—</span>
+    </div>
+  </header>
+
+  <!-- heat progress: which heat is up, and how long until the wipe -->
+  <div class="heat-dots" id="heat-dots"></div>
+
+  <!-- Labels the amber line. Without this nobody knows what it is, and a wall
+       display gets no chance to explain itself. -->
+  <div class="pace-flag" id="pace-flag"><span>Pace</span></div>
+
+  <main class="lanes" id="lanes"></main>
+
+  <!-- The whole team, as one vehicle. Outside .lanes on purpose: the team number
+       is the same in both heats, so this must not wipe when the heats rotate —
+       it keeps rolling while buyers swap to AMs above it.
+       --color / --tint-* are set from JS at boot (see tintTeamLane) so they follow
+       the week's theme. They used to be hardcoded here, which duplicated
+       BUS_COLOR and would have left a school-bus-yellow gutter behind a blue
+       whale. The tints are precomputed rgba() rather than color-mix(), which is
+       Chromium 111+ and absent on every TV browser. -->
+  <div class="bus-lane" id="bus-lane">
+    <div class="gutter">
+      <span class="chip">ALL</span>
+      <span class="who">
+        <span class="nm">Whole Team</span>
+        <span class="sub" id="bus-sub">&mdash;</span>
+      </span>
+    </div>
+    <div class="track">
+      <div class="pace" id="bus-pace"></div>
+      <div class="finish"></div>
+      <div class="car-wrap" id="bus-wrap"><div class="car-inner">
+        <span id="bus-art"></span>
+        <span class="puff"></span><span class="streak"></span>
+        <span class="pill" id="bus-pill"></span>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Win moment. Sound is likely blocked on a TV's built-in browser, so the
+       celebration has to read with the volume off. -->
+  <div class="win" id="win" hidden>
+    <div class="win-scrim"></div>
+    <div class="win-row">
+      <span class="win-flag win-flag-l">
+        <svg viewBox="0 0 120 150" aria-hidden="true">
+          <defs>
+            <pattern id="chk-l" width="24" height="24" patternUnits="userSpaceOnUse">
+              <rect width="24" height="24" fill="#12161d"/>
+              <rect width="12" height="12" fill="#f2f6fb"/>
+              <rect x="12" y="12" width="12" height="12" fill="#f2f6fb"/>
+            </pattern>
+          </defs>
+          <rect x="6" y="0" width="7" height="150" rx="3" fill="#5b6472"/>
+          <g class="win-cloth">
+            <rect x="13" y="8" width="102" height="76" fill="url(#chk-l)"/>
+          </g>
+        </svg>
+      </span>
+
+      <span class="win-card">
+        <span class="win-name" id="win-name">&nbsp;</span>
+        <span class="win-sub">hit goal</span>
+      </span>
+
+      <span class="win-flag win-flag-r">
+        <svg viewBox="0 0 120 150" aria-hidden="true">
+          <defs>
+            <pattern id="chk-r" width="24" height="24" patternUnits="userSpaceOnUse">
+              <rect width="24" height="24" fill="#12161d"/>
+              <rect width="12" height="12" fill="#f2f6fb"/>
+              <rect x="12" y="12" width="12" height="12" fill="#f2f6fb"/>
+            </pattern>
+          </defs>
+          <rect x="107" y="0" width="7" height="150" rx="3" fill="#5b6472"/>
+          <g class="win-cloth">
+            <rect x="5" y="8" width="102" height="76" fill="url(#chk-r)"/>
+          </g>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+  <div class="toast" id="toast"><span class="dot"></span><span class="tx"></span></div>
+  <div class="err" id="err" hidden></div>
+  <div class="sound-hint" id="sound-hint" hidden>&#128263; Press OK on the remote once to enable sound</div>
+</div>
+
+<!-- Three cues, one per moment: a deal booked (advance), a goal crossed
+     (finishline), a deal cancelled (revert). preload=auto so the first play
+     isn't a silent stall while it fetches. Browsers block audio until the page
+     has a user gesture — on a TV nobody clicks, so launch Chrome with
+     --autoplay-policy=no-user-gesture-required (see HANDOFF). -->
+<audio id="snd-advance" src="assets/advance.mp3"    preload="auto"></audio>
+<audio id="snd-finish"  src="assets/finishline.mp3" preload="auto"></audio>
+<audio id="snd-revert"  src="assets/revert.mp3"     preload="auto"></audio>
+
+<!-- themes.js MUST come before race.js: race.js resolves the week's theme at
+     boot and reads RACE_THEMES then. Wrong order and it's undefined, so the
+     board silently falls back to cars and nobody can tell why.
+     It is purely additive — delete it and the board still runs on cars. -->
+<script src="themes.js"></script>
+<script src="race.js"></script>
+</body>
+</html>
