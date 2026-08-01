@@ -117,6 +117,33 @@ its `MX` or `TXT` records while editing DNS.
 
 ## Known gaps
 
-- No `og:image`, so shared links show a text-only preview card. Needs a 1200×630 PNG.
-- Client-rendered, so the page is blank until JS runs — weaker search indexing.
 - `race-board/race.json` is mock data (`"mock": true`, fictional names).
+- `support.js` fetches React, ReactDOM and `@babel/standalone` from unpkg at runtime.
+  Babel alone is ~2.5 MB, so first paint waits on a third-party CDN — the site's main
+  Core Web Vitals liability. Fixing it means changing how the export bundles, which
+  fights the design-sync loop, so measure in PageSpeed Insights before touching it.
+- Not yet verified in Google Search Console — no impression or coverage data exists
+  until the property is claimed (see below).
+
+## Search and AI discoverability
+
+`robots.txt`, `sitemap.xml` and `llms.txt` sit at the repo root and ship as-is. `robots.txt`
+opens the site to search *and* AI crawlers by name — deliberate: this is a portfolio, so
+being quoted by a model is the goal, not a leak.
+
+Two things that are easy to get wrong:
+
+- **The pages are NOT blank without JavaScript.** `support.js` adds behavior, not copy —
+  the text is in the static HTML and crawlers that don't run JS still read it. Verify with
+  `curl -A ClaudeBot https://thebenari.com/` before assuming otherwise.
+- **`scripts/page_meta.py` now requires `og_image`, `og_image_alt` and `jsonld` on every
+  page.** `apply_meta.py` raises `KeyError` if one is missing — deliberately loud, since a
+  silently absent tag is an invisible regression. Add all three when you add a page.
+
+The `<head>` carries schema.org JSON-LD: a `Person` on `index.html` that both project pages
+reference by `@id`, so scrapers merge them into one author instead of three. Every claim in
+it must be traceable to copy on the page — never add a credential or profile URL the site
+itself doesn't state.
+
+Social cards are `assets/og-*.png`, 1200×630, regenerate-by-hand (no script). If you change
+a page title, the card still says the old one.

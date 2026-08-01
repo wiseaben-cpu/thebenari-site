@@ -103,10 +103,25 @@ locally first.
   dropped `support.js`, no conflict markers.
 - Update `README.md` in the same change as any workflow modification.
 
+## Search / AI discoverability (do not undo)
+
+- **The pages are NOT blank without JavaScript** — a long-standing note here claimed they were,
+  and it was wrong. `support.js` adds behavior, not copy; the text ships in the static HTML and
+  non-JS crawlers read it fine. Check with `curl -A ClaudeBot https://thebenari.com/` before
+  believing otherwise, because that one wrong belief makes all SEO work look pointless.
+- `robots.txt`, `sitemap.xml`, `llms.txt` live at the repo root. `robots.txt` opens the site to
+  AI crawlers **on purpose** — being quoted by a model is the goal here.
+- `page_meta.py` requires `og_image`, `og_image_alt` and `jsonld` per page; `apply_meta.py`
+  raises `KeyError` if any is missing. Loud on purpose — a missing tag is an invisible bug.
+- **JSON-LD is a factual claim about a real person.** Everything in it must be traceable to copy
+  on the page. Never add a job title, credential, or profile URL the site doesn't state.
+- Social cards `assets/og-*.png` are hand-made, not generated. Change a title and the card goes
+  stale silently.
+
 ## Known gaps
 
-- `benari.html` and `signal-desk.html` have **no phone breakpoints** (smallest are 1360px and
-  1280px). Only `index.html` has a mobile layout. Worth a design round.
-- No `og:image`, so shared links show a text-only preview card. Needs a 1200×630 PNG.
-- Client-rendered, so pages are blank until JS runs — weaker search indexing.
 - `race-board/race.json` is mock data (`"mock": true`, fictional names).
+- `support.js` pulls React + `@babel/standalone` (~2.5 MB) from unpkg at runtime, so first paint
+  waits on a third-party CDN. The main performance liability; measure before touching, since the
+  fix fights the design-sync loop.
+- Google Search Console property not yet claimed, so there's no impression or coverage data.

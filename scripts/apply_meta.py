@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Re-apply <head> metadata to the exported pages. Idempotent.
 
-Design exports have no <title> and no social tags. Run this after every sync; it
-inserts the block from page_meta.py, replacing any block a previous run added.
-Safe to run repeatedly — the second run is a no-op.
+Design exports have no <title>, no social tags, and no structured data. Run this
+after every sync; it inserts the block from page_meta.py — title, description,
+canonical, Open Graph/Twitter cards, and a schema.org JSON-LD node — replacing any
+block a previous run added. Safe to run repeatedly — the second run is a no-op.
 
 With --strip it does the exact opposite: removes everything this script adds,
 returning a page to the byte-identical form the design export shipped. That
@@ -14,12 +15,13 @@ without it, every merge would collide on the injected <head> block.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from page_meta import FAVICON, PAGES, SITE_NAME  # noqa: E402
+from page_meta import BASE, FAVICON, PAGES, SITE_NAME  # noqa: E402
 
 START = "<!-- BEGIN generated head metadata (scripts/apply_meta.py) -->"
 END = "<!-- END generated head metadata -->"
@@ -33,7 +35,25 @@ def esc(text: str) -> str:
     return text.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
 
 
+def jsonld(data: dict) -> str:
+    """Serialize schema.org data as a <script> tag.
+
+    Never run esc() over this — HTML entity escaping inside a JSON-LD block
+    corrupts the JSON (a parser sees the literal "&amp;", not "&"). json.dumps
+    does the only escaping JSON needs; the one remaining hazard is a "</script>"
+    sequence in the copy ending the block early, which "\\u003c" — a valid JSON
+    escape for "<" — makes impossible without touching the parsed value.
+    """
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    payload = payload.replace("<", "\\u003c")
+    return f'<script type="application/ld+json">{payload}</script>'
+
+
 def block(meta: dict) -> str:
+    # Open Graph resolves nothing relative to the page — a relative path is simply
+    # dropped by most scrapers, so image URLs are absolute even though the favicon
+    # above them is not.
+    image = f"{BASE}/{meta['og_image']}"
     lines = [
         START,
         f"<title>{esc(meta['title'])}</title>",
@@ -45,9 +65,15 @@ def block(meta: dict) -> str:
         f'<meta property="og:url" content="{meta["url"]}">',
         f'<meta property="og:title" content="{esc(meta["og_title"])}">',
         f'<meta property="og:description" content="{esc(meta["og_description"])}">',
+        f'<meta property="og:image" content="{image}">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:alt" content="{esc(meta["og_image_alt"])}">',
         '<meta name="twitter:card" content="summary_large_image">',
         f'<meta name="twitter:title" content="{esc(meta["og_title"])}">',
         f'<meta name="twitter:description" content="{esc(meta["og_description"])}">',
+        f'<meta name="twitter:image" content="{image}">',
+        jsonld(meta["jsonld"]),
         END,
     ]
     return "\n".join(lines)

@@ -1,0 +1,24 @@
+# Benji Wise
+
+> Benji Wise is a builder in Boston who directs AI models to write software and holds the taste himself — a practice he calls vibe-coding. He is a senior at Northeastern University studying business administration with a finance concentration and an environmental studies minor, and is open to work in 2026. His site, thebenari.com, is published under the name The BenAri.
+
+His stated position: "Optimization is the easy half. People are the hard half. I work in the gap between the two."
+
+Recent output, as stated on the site: ten systems vibe-coded in about eight weeks, 288 commits, three of them running 24/7 in production. The recurring techniques are multi-agent orchestration, pgvector RAG, MCP tool servers, and live-broker trading.
+
+How he works, in his own framing: he starts with a conversation, not a spec — sitting with the people who will use the thing to find the problem they actually have, then shipping the smallest version that solves it. He won't build for problems nobody has, won't oversell what a tool can't do, and won't call something working before it's verified. His example of the last point: he built an AI trading strategy, ran the research, found no real edge, and rebuilt it from scratch.
+
+## Pages
+
+- [Benji Wise — portfolio](https://thebenari.com/): The landing page. Covers who he is, the three selected projects, and the approach section quoted above. The three projects are framed as "01 — Built to be used" (Benari), "02 — Tested to break" (the trading system, listed there as intelligence-office), and "03 — Worth watching" (a sales race board).
+- [Benari — an AI chief of staff you text](https://thebenari.com/benari.html): Benari is an always-on personal and executive assistant you text. A stateless Claude brain reads one message and routes it to the right specialist — calendar, email, tasks, memory — each a domain sub-agent backed by its own MCP server, over a pgvector memory that recalls the right context. Adding a skill means adding a module, never a rewrite. Nothing irreversible happens without a confirmation: outbound messages are drafted and only send on an explicit YES. It runs 24/7; production runs on WhatsApp via Twilio. The page itself is an interactive recreation with scripted, fictional sample data.
+- [Signal Desk — built a trading bot, then disproved it](https://thebenari.com/signal-desk.html): An autonomous trading system that screens roughly 900 stocks, runs research agents, and places real orders through a live brokerage, with LLM agents reaching the broker over MCP. The first version showed a 62% win rate, but out-of-sample testing put its information coefficient at 0.006 with a t-stat of 0.4 — bull-market beta, not skill. He retired it and rebuilt on a momentum signal, which held out-of-sample at IC 0.13 and a t-stat of 8.2. Results are walk-forward tested, net of 35 bps. Illustrative sample data — not investment advice. The real system is a private repo.
+
+## Optional
+
+- [Sales race track](https://thebenari.com/race-board/index.html?demo=1): A retro leaderboard that turns a sales floor's targets into a race on the office TV. Every rep is a car, a pace line shows who is on track, and 100% sets off the checkered flag. Dependency-free, built to run all day on cheap TV hardware. The public demo runs on mock data with fictional names.
+
+## Elsewhere
+
+- [LinkedIn](https://www.linkedin.com/in/benjaminwise0): Where he asks people to get in touch.
+- [Instagram](https://instagram.com/benji.wise05): Personal.

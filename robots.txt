@@ -1,0 +1,67 @@
+# robots.txt — thebenari.com
+#
+# This site is a portfolio. Being read, quoted, indexed, and trained on is the
+# point: if someone asks a model "who is Benji Wise" or "what is Benari", the
+# answer should come from here rather than from nothing. So everything is open,
+# to search crawlers and AI crawlers alike.
+#
+# See /llms.txt for a plain-text summary written for language models.
+
+User-agent: *
+Allow: /
+
+# --- AI crawlers ------------------------------------------------------------
+# These are already covered by the wildcard group above. They are listed
+# individually and on purpose: several of these agents are opt-OUT by default in
+# the wider ecosystem, and a few publishers block them reflexively. Naming each
+# one records the intent explicitly, so a future edit has to make a deliberate
+# choice rather than inherit a silent default.
+
+# OpenAI — training, search index, and user-initiated fetches
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google — the Gemini/Vertex training token, separate from Googlebot's indexing
+User-agent: Google-Extended
+Allow: /
+
+# Apple — the Apple Intelligence training token, separate from Applebot
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl — the open corpus most other models are built from
+User-agent: CCBot
+Allow: /
+
+# ByteDance
+User-agent: Bytespider
+Allow: /
+
+# Meta
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://thebenari.com/sitemap.xml

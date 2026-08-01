@@ -13,9 +13,15 @@
 <meta property="og:url" content="https://thebenari.com/signal-desk.html">
 <meta property="og:title" content="Signal Desk — A trading bot, then LLM agents">
 <meta property="og:description" content="A momentum trading system, walk-forward tested net of 35 bps. Illustrative sample data — not investment advice.">
+<meta property="og:image" content="https://thebenari.com/assets/og-signal-desk.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Share card for Signal Desk: a momentum trading system, walk-forward tested.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Signal Desk — A trading bot, then LLM agents">
 <meta name="twitter:description" content="A momentum trading system, walk-forward tested net of 35 bps. Illustrative sample data — not investment advice.">
+<meta name="twitter:image" content="https://thebenari.com/assets/og-signal-desk.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","@id":"https://thebenari.com/signal-desk.html#signal-desk","name":"Signal Desk","url":"https://thebenari.com/signal-desk.html","applicationCategory":"FinanceApplication","inLanguage":"en","description":"Built a trading bot, then disproved it. LLM agents trading a live broker over MCP posted a 62% win rate but an out-of-sample information coefficient of 0.006 — bull-market beta, not skill — so the system was rebuilt on momentum, which holds out-of-sample (IC 0.13), walk-forward tested net of 35 bps. Illustrative sample data — not investment advice; the real system is a private repo.","author":{"@type":"Person","@id":"https://thebenari.com/#benji-wise","name":"Benji Wise","url":"https://thebenari.com/"}}</script>
 <!-- END generated head metadata -->
 <script src="./support.js"></script>
 </head>
@@ -64,6 +70,11 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
   section > div:nth-of-type(4) > div{padding:12px 14px !important}
   /* preserveAspectRatio="none" squashes the curve flat at narrow widths */
   [data-chart] svg{min-height:200px !important}
+  /* The prose sections are rules, not cards, so the generic `section` padding above would
+     inset them 16px inside main's own 20px gutter and make them read as a third column.
+     Attribute selector outranks the bare `section` rule, so order here doesn't matter. */
+  section[data-prose]{padding:16px 0 0 !important;gap:12px !important}
+  section[data-prose] p{font-size:16px !important}
   footer{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;padding:16px 20px !important}
 }
 </style>
@@ -88,6 +99,8 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
         <button data-mode="mom" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:transparent;color:#241E1A;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">Momentum rebuild</button>
       </div>
     </div>
+
+    <p style="margin:0;max-width:64ch;font-size:clamp(17px,1.5vw,19px);line-height:1.5;text-wrap:pretty">An autonomous trading system: LLM agents that place orders on a live brokerage account through an MCP tool server. The first version posted a 62% win rate. I tested whether that was skill, found it wasn't, and rebuilt it on a momentum signal that survives a holdout. The chart and the figures below run on illustrative sample data — not a record of realized returns, and not investment advice.</p>
 
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(36,30,26,.14);border:1px solid rgba(36,30,26,.14)">
       <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">01 — Built it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em">62% win rate</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">LLM agents, live broker over MCP</span></div>
@@ -122,6 +135,29 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
         <span data-verdict-title="1" style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">No edge</span>
         <span data-verdict-text="1" style="font-size:14px;line-height:1.4">Win rate was bull-market beta, not skill.</span>
       </div>
+    </section>
+
+    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
+      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">Built it: LLM agents on a live broker</h2>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">In the first version, LLM agents produced the signals and placed the orders on a live brokerage account through an MCP tool server. It won 62% of its trades.</p>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">A win rate counts how often a position closed up. It says nothing about whether the signal caused it. The market rose 20% over the same window, and in a rising market most long positions win.</p>
+    </section>
+
+    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
+      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">Tested it: the win rate was bull-market beta</h2>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The measure that matters is the information coefficient — how well a signal's forecast correlates with the return that actually follows. Out of sample the AI signals scored an IC of 0.006 at a t-stat of 0.4. That is indistinguishable from zero.</p>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The equity curve says the same thing. Over the window the strategy returned +18% while the S&amp;P 500 returned +20%, so it finished two points behind the index it was trading inside. The 62% win rate was bull-market beta, not skill.</p>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">So I retired it.</p>
+    </section>
+
+    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
+      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">Rebuilt it: momentum that holds out of sample</h2>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The rebuild throws out the LLM signal and ranks on momentum instead. Out of sample it scores an IC of 0.13 at a t-stat of 8.2, and the curve ends at +115% against the same +20% market — 95 points of excess. The toggle above the chart switches between the two versions.</p>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Both are tested the same way, so the comparison is fair: walk-forward, net of 35 bps, over a 24-month window.</p>
+
+      <h3 style="margin:8px 0 0;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">How to read these numbers</h3>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Information coefficient is the correlation between a signal's forecast and the return that follows it; zero means the signal knows nothing. The t-stat says how likely an IC that size is to be chance — 0.4 is chance, 8.2 is not. Walk-forward means the model is fit on earlier data and scored only on the stretch that comes after, so it is never graded on data it has already seen. Net of 35 bps means trading costs are subtracted before any of these figures are computed.</p>
+      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty;color:rgba(36,30,26,.55)">The series shown here are illustrative sample data, not realized returns. Nothing on this page is investment advice or a recommendation. The production system is a private repo.</p>
     </section>
 
   </main>
