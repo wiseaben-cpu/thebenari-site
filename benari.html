@@ -41,33 +41,25 @@ a{color:#EDE9E4;text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:4px}
 @keyframes bubbleIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes dot{0%,60%,100%{opacity:.3}30%{opacity:1}}
-@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}}
-/* Phones. The page is built from inline styles, so overrides need !important and are
-   targeted by element/position rather than class. Without this the two-column main and the
-   fixed 352px phone mock overflow a 390px viewport. */
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
 @media (max-width: 760px){
   header{padding:14px 20px !important;gap:12px !important}
   header > span{font-size:10px !important;text-align:right !important}
   main{grid-template-columns:1fr !important;gap:34px !important;padding:34px 20px 28px !important}
-  main > section:first-of-type{gap:20px !important}
   main h1{font-size:clamp(36px,10.5vw,54px) !important;max-width:none !important}
-  main p{font-size:16px !important}
-  main > section:first-of-type > div:last-of-type{max-width:none !important}
-  main > section:first-of-type > div{max-width:none !important}
-  /* The phone mock is a fixed 352x706 frame — scale it to the viewport instead. */
+  main p{font-size:16px !important;max-width:none !important}
   main > section:last-of-type > div{
     width:min(320px,86vw) !important;
     height:min(640px,74vh) !important;
     padding:10px !important;
     border-radius:30px !important;
   }
-  footer{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;padding:16px 20px !important}
-  /* Prose sections: one column, tighter rhythm. */
   [data-prose]{padding:56px 20px 64px !important}
-  [data-prose] > div{gap:54px !important}
-  [data-prose] h2{font-size:clamp(30px,8.6vw,46px) !important;max-width:none !important}
-  [data-prose] [data-cols]{grid-template-columns:1fr !important;gap:24px !important;padding-top:22px !important}
-  [data-prose] p{font-size:16px !important;max-width:none !important}
+  [data-cols]{grid-template-columns:1fr !important;gap:38px !important}
+  [data-num]{font-size:96px !important}
+  [data-close]{padding:64px 20px 72px !important}
+  [data-close] h2{font-size:clamp(30px,8.6vw,46px) !important;max-width:none !important}
+  footer{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;padding:16px 20px !important}
 }
 </style>
 <script src="page-transition.js"></script>
@@ -83,23 +75,12 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
     <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">01 — Built to be used</span>
   </header>
 
-  <main style="display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center;padding:56px 56px 40px;max-width:1360px;margin:0 auto;width:100%;box-sizing:border-box">
+  <main style="display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center;padding:64px 56px 56px;max-width:1360px;margin:0 auto;width:100%;box-sizing:border-box">
 
-    <section style="display:grid;gap:26px;align-content:center">
-      <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88);display:inline-flex;align-items:center;gap:12px"><span style="background:#EDE9E4;color:#0352BA;font-weight:700;padding:4px 10px">Demo</span>Scripted sample data</span>
-      <h1 style="margin:0;font-weight:900;font-size:clamp(46px,5.2vw,86px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;max-width:15ch">An AI chief of staff you text</h1>
-      <p style="margin:0;font-size:18px;line-height:1.45;max-width:52ch;color:rgba(237,233,228,.88);text-wrap:pretty">A stateless Claude brain reads one message, routes it to the right specialist — calendar, email, tasks, memory — and texts back like a person. A new skill is a new module, never a rewrite.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;max-width:46ch">
-        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">Multi-agent routing</span>
-        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">pgvector memory</span>
-        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">Confirm before send</span>
-        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">MCP tool servers</span>
-        <span style="font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(237,233,228,.18); background-color: var(--ink)">Runs 24/7</span>
-      </div>
-      <div style="display:grid;gap:14px;border-top:2px solid rgba(237,233,228,.18);padding-top:22px;max-width:46ch">
-        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Two things to watch</span>
-        <p style="margin:0;font-size:15px;line-height:1.5;color:rgba(237,233,228,.88)">The confirmation gate before anything leaves the outbox, and the moment it writes a preference to memory. Nothing irreversible happens without a yes.</p>
-      </div>
+    <section style="display:grid;gap:28px;align-content:center">
+      <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88);display:inline-flex;align-items:center;gap:12px"><span style="background:#EDE9E4;color:#0352BA;font-weight:700;padding:4px 10px">Benji-ai</span>Personal assistant · runs 24/7</span>
+      <h1 style="margin:0;font-weight:900;font-size:clamp(46px,5.4vw,92px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;max-width:14ch">A system that can read itself</h1>
+      <p style="margin:0;font-size:19px;line-height:1.45;max-width:48ch;color:rgba(237,233,228,.88);text-wrap:pretty">An assistant I text on WhatsApp. Ten services underneath it, and an instrumentation layer that has found more than testing did.</p>
     </section>
 
     <section style="display:flex;justify-content:center;align-items:center">
@@ -111,7 +92,7 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
               <span style="font-weight:900;font-size:15px;letter-spacing:-.02em;text-transform:uppercase">Benari</span>
               <span style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Online</span>
             </span>
-            <span style="margin-left:auto;font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Today</span>
+            <span style="margin-left:auto;font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">Scripted</span>
           </div>
 
           <div data-thread="1" style="flex:1;overflow-y:auto;padding:16px 14px 10px;display:flex;flex-direction:column;gap:8px">
@@ -134,75 +115,45 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
 
   </main>
 
-  <section data-prose="1" style="background:#EDE9E4;color:#241E1A;padding:88px 56px 96px">
-    <div style="max-width:1360px;margin:0 auto;display:grid;gap:76px">
+  <section data-prose="1" style="background:#EDE9E4;color:#241E1A;padding:96px 56px 104px">
+    <div data-cols="1" style="max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:72px 64px">
 
-      <div style="display:grid;gap:22px">
-        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);display:inline-flex;align-items:center;gap:12px"><span style="background:#0352BA;color:#EDE9E4;font-weight:700;padding:4px 10px">01</span>The system</span>
-        <h2 style="margin:0;font-weight:900;font-size:clamp(34px,4.4vw,62px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;max-width:18ch">What Benari is</h2>
-        <p style="margin:0;font-size:17px;line-height:1.5;max-width:66ch;text-wrap:pretty">Benari is a personal and executive assistant that runs as a WhatsApp thread. I text it the way I'd text a chief of staff — what does my day look like, what actually needs me, remember this about that person — and it answers from my calendar, my inbox, my task list, and its own memory.</p>
-        <p style="margin:0;font-size:17px;line-height:1.5;max-width:66ch;text-wrap:pretty">It is a prototype, not a product. One person can use it: me. The conversation above is scripted with invented names to show the shape of a real exchange. The system underneath it is real, and it runs continuously.</p>
+      <div style="display:grid;gap:14px;align-content:start;border-top:2px solid #241E1A;padding-top:24px">
+        <span data-num="1" style="font-weight:900;font-size:clamp(72px,8vw,124px);line-height:.86;letter-spacing:-.035em">34</span>
+        <h2 style="margin:0;font-weight:900;font-size:22px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Tools, six of them locked</h2>
+        <p style="margin:0;font-size:17px;line-height:1.5;max-width:46ch;text-wrap:pretty">Calendar, email, tasks, notes. Anything that sends or deletes stops and waits for a typed yes — a gate in the code, not an instruction in the prompt, so the model cannot talk its way past it.</p>
       </div>
 
-      <div style="display:grid;gap:26px">
-        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);display:inline-flex;align-items:center;gap:12px"><span style="background:#0352BA;color:#EDE9E4;font-weight:700;padding:4px 10px">02</span>Architecture</span>
-        <h2 style="margin:0;font-weight:900;font-size:clamp(34px,4.4vw,62px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;max-width:18ch">How Benari works</h2>
-        <p style="margin:0;font-size:17px;line-height:1.5;max-width:66ch;text-wrap:pretty">Every message takes the same path. The sender is checked against a list of who is allowed to talk to it. Context is rebuilt from the database — the recent thread, known facts, whatever a search of memory turns up. One Claude call then runs with the tools for the relevant domain attached. The whole turn is written back to the database before the reply goes out.</p>
-        <div data-cols="1" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;border-top:2px solid #241E1A;padding-top:28px">
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">The brain keeps nothing</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Claude holds no state between calls. Every turn starts empty and is reassembled from Postgres, which is the only source of truth. The model does the reasoning. It is never the record.</p>
-          </div>
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">A skill is a row, not a rewrite</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">The orchestrator has no idea what a calendar is. At runtime it reads a registry table to find which sub-agent handles the request and which tools to hand the model. A domain is that registry row plus a small MCP server that does the actual work, so adding one changes no routing code.</p>
-          </div>
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Memory is one database</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Postgres with pgvector holds relational rows, structured facts, and embeddings in one place. Recall blends vector similarity, keyword match, and confidence, and decays older entries so stale context ranks lower. A background job retires memories that get contradicted, and brings one back if I say it again.</p>
-          </div>
-        </div>
+      <div style="display:grid;gap:14px;align-content:start;border-top:2px solid #241E1A;padding-top:24px">
+        <span data-num="1" style="font-weight:900;font-size:clamp(72px,8vw,124px);line-height:.86;letter-spacing:-.035em">71</span>
+        <h2 style="margin:0;font-weight:900;font-size:22px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Named events, every turn measured</h2>
+        <p style="margin:0;font-size:17px;line-height:1.5;max-width:46ch;text-wrap:pretty">Every turn is written back as a trace: what it recalled, what it called, how long each stage took. That layer has caught three problems before they ever reached me — none of which a test would have found.</p>
       </div>
 
-      <div style="display:grid;gap:26px">
-        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);display:inline-flex;align-items:center;gap:12px"><span style="background:#0352BA;color:#EDE9E4;font-weight:700;padding:4px 10px">03</span>Today</span>
-        <h2 style="margin:0;font-weight:900;font-size:clamp(34px,4.4vw,62px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;max-width:18ch">What Benari can do today</h2>
-        <p style="margin:0;font-size:17px;line-height:1.5;max-width:66ch;text-wrap:pretty">Four domains are live. Each is its own tool server behind the same interface.</p>
-        <div data-cols="1" style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px;border-top:2px solid #241E1A;padding-top:28px">
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Calendar</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Reads the calendar, lists what's coming, and finds free time. Creating, moving, or deleting an event is drafted first.</p>
-          </div>
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Email</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Searches and reads threads, separates what needs a reply from what is FYI, and writes the draft. Sending waits.</p>
-          </div>
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Tasks</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Adds, lists, and closes tasks in the same thread as everything else, so a second app never has to be opened.</p>
-          </div>
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Notes</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Reads a folder of markdown notes and pulls the relevant passage into an answer, naming the file it came from.</p>
-          </div>
-        </div>
-        <div data-cols="1" style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px;border-top:2px solid #241E1A;padding-top:28px">
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Nothing outward happens without a yes</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;max-width:56ch;text-wrap:pretty">Any tool that sends, deletes, or changes something outside the system is flagged in the registry. The orchestrator stops it, shows the draft, and waits for a literal YES before it runs. That gate is code, not an instruction in the prompt, so the model cannot talk its way past it. Anything that comes back from an email or a note is wrapped and treated as data, never as instructions.</p>
-          </div>
-          <div style="display:grid;gap:12px;align-content:start">
-            <h3 style="margin:0;font-weight:900;font-size:19px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">What it can't do yet</h3>
-            <p style="margin:0;font-size:16px;line-height:1.5;max-width:56ch;text-wrap:pretty">A second switch sits in front of that gate. While it is on, any tool that writes to an outside account is refused before it can even be drafted — so for now Benari reads my accounts and drafts the reply, and I send it. It also only speaks when spoken to: the delivery path for unprompted messages exists, the morning briefing that would use it does not. Voice is built and not yet in use.</p>
-          </div>
-        </div>
+      <div style="display:grid;gap:14px;align-content:start;border-top:2px solid #241E1A;padding-top:24px">
+        <span data-num="1" style="font-weight:900;font-size:clamp(72px,8vw,124px);line-height:.86;letter-spacing:-.035em">4</span>
+        <h2 style="margin:0;font-weight:900;font-size:22px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Tools pointed at its own source</h2>
+        <p style="margin:0;font-size:17px;line-height:1.5;max-width:46ch;text-wrap:pretty">It can open a file in its own repo, search the tree, and read its own commit log — read-only, sandboxed. Ask why it behaves a certain way and it goes and looks.</p>
+      </div>
+
+      <div style="display:grid;gap:14px;align-content:start;border-top:2px solid #241E1A;padding-top:24px">
+        <span data-num="1" style="font-weight:900;font-size:clamp(72px,8vw,124px);line-height:.86;letter-spacing:-.035em">6×</span>
+        <h2 style="margin:0;font-weight:900;font-size:22px;line-height:1.1;letter-spacing:-.02em;text-transform:uppercase">Cheaper per turn than it looks</h2>
+        <p style="margin:0;font-size:17px;line-height:1.5;max-width:46ch;text-wrap:pretty">A turn re-sends its persona, its rules and its whole tool list up to six times as the model works. The prompt is split so every one of those after the first is served from cache.</p>
       </div>
 
     </div>
   </section>
 
+  <section data-close="1" style="background:#241E1A;color:#EDE9E4;padding:88px 56px 96px">
+    <div style="max-width:1360px;margin:0 auto;display:grid;gap:26px">
+      <h2 style="margin:0;font-weight:900;font-size:clamp(34px,4.4vw,62px);line-height:.9;letter-spacing:-.035em;text-transform:uppercase;max-width:20ch">Seven services, running since June</h2>
+      <p style="margin:0;font-size:18px;line-height:1.5;max-width:62ch;color:rgba(237,233,228,.88);text-wrap:pretty">Five background agents keep it current between conversations — one of them measures how often it gets a memory wrong and tunes its own threshold on the result. Voice is live end to end. A new domain is a row in a table, not a rewrite.</p>
+    </div>
+  </section>
+
   <footer style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding:20px 56px;border-top:1px solid rgba(237,233,228,.18);font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">
-    <span>Interactive recreation · fictional data · production runs on WhatsApp via Twilio</span>
+    <span>Counted from source · thread above is scripted with invented names · production runs on WhatsApp via Twilio</span>
     <a href="index.html">← Back to the work</a>
   </footer>
 
@@ -227,8 +178,8 @@ class Component extends DCLogic {
       { side: 'in', think: 850, t: '9:05', html: '<b>Sent to Dana.</b> Logged to the thread, task closed.' },
       { side: 'out', t: '9:06', html: 'also remember priya prefers morning meetings' },
       { side: 'in', think: 1000, t: '9:06', html: '<b>Saved to Priya Rao’s note</b> — “Prefers morning meetings.” I’ll factor that in next time I schedule with her.' },
-      { side: 'out', t: '9:06', html: 'you’re the best' },
-      { side: 'in', think: 700, t: '9:07', html: 'That’s the job.' }
+      { side: 'out', t: '9:06', html: 'why did you move the pitch review?' },
+      { side: 'in', think: 1150, t: '9:07', html: 'I didn’t — Northwind did, and I read it off the calendar. If you want the reasoning behind anything <i>I</i> do, I can read my own source.' }
     ];
     if (this.replay) this.replay.addEventListener('click', () => this.play());
     this.play();
