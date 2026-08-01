@@ -36,6 +36,27 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
 @keyframes bubbleIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes dot{0%,60%,100%{opacity:.3}30%{opacity:1}}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}}
+/* Phones. The page is built from inline styles, so overrides need !important and are
+   targeted by element/position rather than class. Without this the two-column main and the
+   fixed 352px phone mock overflow a 390px viewport. */
+@media (max-width: 760px){
+  header{padding:14px 20px !important;gap:12px !important}
+  header > span{font-size:10px !important;text-align:right !important}
+  main{grid-template-columns:1fr !important;gap:34px !important;padding:34px 20px 28px !important}
+  main > section:first-of-type{gap:20px !important}
+  main h1{font-size:clamp(36px,10.5vw,54px) !important;max-width:none !important}
+  main p{font-size:16px !important}
+  main > section:first-of-type > div:last-of-type{max-width:none !important}
+  main > section:first-of-type > div{max-width:none !important}
+  /* The phone mock is a fixed 352x706 frame — scale it to the viewport instead. */
+  main > section:last-of-type > div{
+    width:min(320px,86vw) !important;
+    height:min(640px,74vh) !important;
+    padding:10px !important;
+    border-radius:30px !important;
+  }
+  footer{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;padding:16px 20px !important}
+}
 </style>
 </helmet>
 

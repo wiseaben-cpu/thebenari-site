@@ -35,6 +35,37 @@ a{color:#0352BA;text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:4px}
 @keyframes strike{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}}
+/* Phones. Inline styles everywhere, so overrides need !important and are targeted by
+   element/position. Without this the 3-up cards, the 4-up stat grid and 48px gutters
+   overflow a 390px viewport, and the equity chart collapses to an unreadable sliver. */
+@media (max-width: 760px){
+  /* Grid and flex items default to min-width:auto, so they refuse to shrink below their
+     content. Nested several levels deep (main > section > inner grids) that compounds into a
+     hard floor: a 390px viewport was being forced to 549px and the whole page scrolled
+     sideways. Overriding one level only got it to 512px — every layout box has to yield. */
+  header, header *, main, main *, footer, footer *{min-width:0 !important}
+  /* Only prose breaks. Applying this to everything shattered the stat figures into one
+     character per line ("+ 1 8 %"), because min-width:0 lets those tiles get very narrow. */
+  main p, main h1, main h2{overflow-wrap:break-word !important}
+  header{padding:14px 20px !important;gap:12px !important}
+  main{padding:28px 20px 32px !important;gap:24px !important}
+  main h1{font-size:clamp(32px,9vw,46px) !important;max-width:none !important}
+  /* Mode toggle: let the two buttons share a row rather than overflow. */
+  main > div:first-of-type{gap:18px !important}
+  main > div:first-of-type > div:last-child{width:100% !important}
+  main > div:first-of-type > div:last-child > button{flex:1 1 0 !important;padding:14px 12px !important}
+  /* 3-up "what happened" cards -> stacked */
+  main > div:nth-of-type(2){grid-template-columns:1fr !important}
+  section{padding:18px 16px 16px !important;gap:16px !important}
+  section h2{font-size:16px !important}
+  /* 4-up stats -> 2x2; four across at 390px is ~78px each and unreadable.
+     nth-of-type(4), NOT :last-of-type — the verdict bar is the last div in the section. */
+  section > div:nth-of-type(4){grid-template-columns:repeat(2,1fr) !important;gap:10px !important}
+  section > div:nth-of-type(4) > div{padding:12px 14px !important}
+  /* preserveAspectRatio="none" squashes the curve flat at narrow widths */
+  [data-chart] svg{min-height:200px !important}
+  footer{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;padding:16px 20px !important}
+}
 </style>
 </helmet>
 
