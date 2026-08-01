@@ -23,6 +23,42 @@ ZIP="${1:-}"
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BASELINE="$REPO/.export-baseline"
 
+# Paths the export does not own. rsync --delete would otherwise remove them, because
+# "absent from the export" and "should be deleted" look identical to it. Everything here
+# is authored in the repo, not by Claude Design.
+#
+# 2026-08-01: this list silently fell behind reality. An export was about to delete
+# robots.txt, sitemap.xml, llms.txt, all three og-*.png cards and CLAUDE.md — the whole
+# search/AI-discoverability layer — because they were added after the list was written.
+# Hence the guard in unprotected_deletions() below: a stale list must fail loudly, not quietly.
+PROTECTED=(
+  '.git/' '.gitignore' '*.zip' '.export-baseline/'
+  '.nojekyll' 'CNAME'                 # absence breaks hosting outright
+  'README.md' 'DESIGN-BRIEF.md' 'CLAUDE.md' 'scripts/'
+  'robots.txt' 'sitemap.xml' 'llms.txt'   # crawler files, hand-authored
+  'assets/og-*.png'                       # social cards, hand-drawn
+)
+
+is_protected() {
+  local path="$1" pat
+  for pat in "${PROTECTED[@]}"; do
+    case "$pat" in
+      */) [[ "$path" == "${pat}"* ]] && return 0 ;;
+      *)  [[ "$path" == $pat ]] && return 0 ;;
+    esac
+  done
+  return 1
+}
+
+# Tracked files the export lacks and PROTECTED doesn't cover — i.e. what --delete would eat.
+unprotected_deletions() {
+  local src="$1" f
+  git -C "$REPO" ls-files | while IFS= read -r f; do
+    is_protected "$f" && continue
+    [[ -e "$src/$f" ]] || echo "$f"
+  done
+}
+
 # Files a human might plausibly hand-edit. Everything else (fonts, audio, SVG
 # marks, the generated _ds/ bundle) takes the export version wholesale.
 mergeable() {
@@ -59,6 +95,18 @@ if [[ -z "$SRC" || ! -f "$SRC/index.html" ]]; then
 fi
 echo "→ source: ${SRC#$TMP/x/}"
 
+# Refuse to delete repo-authored files just because this export doesn't carry them.
+doomed="$(unprotected_deletions "$SRC")"
+if [[ -n "$doomed" ]]; then
+  echo "ERROR: this export would DELETE tracked files that it doesn't contain:" >&2
+  printf '  %s\n' $doomed >&2
+  echo >&2
+  echo "If they're repo-authored (crawler files, social cards, docs), add them to" >&2
+  echo "PROTECTED at the top of this script and re-run. If the export genuinely" >&2
+  echo "dropped them on purpose, delete them in a separate commit first." >&2
+  exit 1
+fi
+
 # Snapshot the repo's current mergeable files BEFORE rsync overwrites them, in
 # stripped ("export form") so they compare like-for-like against a raw export.
 # Without the strip, the injected <head> block would conflict on every run.
@@ -75,17 +123,9 @@ find "$MINE" -name '*.html' -exec python3 "$REPO/scripts/apply_meta.py" --strip 
 # --delete removes files the export dropped. Excluded paths are NOT deleted
 # (that needs --delete-excluded), which is exactly how the protected files survive.
 echo "→ syncing into repo"
-rsync -a --delete \
-  --exclude '.git/' \
-  --exclude '.gitignore' \
-  --exclude '*.zip' \
-  --exclude '.export-baseline/' \
-  --exclude '.nojekyll' \
-  --exclude 'CNAME' \
-  --exclude 'README.md' \
-  --exclude 'DESIGN-BRIEF.md' \
-  --exclude 'scripts/' \
-  "$SRC"/ "$REPO"/
+excludes=()
+for pat in "${PROTECTED[@]}"; do excludes+=(--exclude "$pat"); done
+rsync -a --delete "${excludes[@]}" "$SRC"/ "$REPO"/
 
 # Belt and braces: recreate the two files whose absence breaks the live site.
 [[ -f "$REPO/.nojekyll" ]] || { : > "$REPO/.nojekyll"; echo "  recreated .nojekyll"; }
