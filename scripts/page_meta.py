@@ -145,23 +145,26 @@ PAGES = {
     },
     "signal-desk.html": {
         # Mirrors the page's own disclaimer — keep the "not investment advice" clause.
-        "title": "Signal Desk — A trading bot, then LLM agents | Benji Wise",
-        "og_title": "Signal Desk — A trading bot, then LLM agents",
+        "title": "Signal Desk — An autonomous trader that bought its worst ideas | Benji Wise",
+        "og_title": "Signal Desk — It traded its own worst ideas",
         "description": (
-            "A momentum trading system, walk-forward tested net of 35 bps, with LLM "
-            "agents trading a live broker over MCP. Illustrative sample data — not "
-            "investment advice."
+            "An autonomous system that placed real orders on a live brokerage account "
+            "for 37 trading days. It lost 5.0% while the S&P 500 rose 1.4% — and the "
+            "picks it chose to trade did far worse than the ones it passed over. Real "
+            "money, broker-sourced figures, not investment advice."
         ),
         "og_description": (
-            "A momentum trading system, walk-forward tested net of 35 bps. "
-            "Illustrative sample data — not investment advice."
+            "37 trading days of real money on a live broker: down 5.0% against the "
+            "S&P's +1.4%. The picks it traded lost 24.7%; the ones it passed over lost "
+            "1.0%. Not investment advice."
         ),
         "url": f"{BASE}/signal-desk.html",
         "og_type": "article",
         "og_image": "assets/og-signal-desk.png",
+        # NOTE: the card art still shows the old sample-data framing. It is hand-drawn,
+        # so nothing regenerates it — redraw before leaning on link previews.
         "og_image_alt": (
-            "Share card for Signal Desk: a momentum trading system, walk-forward "
-            "tested."
+            "Share card for Signal Desk: an autonomous trading system's live record."
         ),
         # Same reasoning as Benari — a running system, and the page says outright
         # that the source is a private repo, so SoftwareSourceCode would misdescribe
@@ -176,12 +179,17 @@ PAGES = {
             "applicationCategory": "FinanceApplication",
             "inLanguage": "en",
             "description": (
-                "Built a trading bot, then disproved it. LLM agents trading a live "
-                "broker over MCP posted a 62% win rate but an out-of-sample "
-                "information coefficient of 0.006 — bull-market beta, not skill — so "
-                "the system was rebuilt on momentum, which holds out-of-sample "
-                "(IC 0.13), walk-forward tested net of 35 bps. Illustrative sample "
-                "data — not investment advice; the real system is a private repo."
+                "An autonomous trading system that screens, sizes and places real "
+                "orders on a live Robinhood account, unattended. Over 37 trading days "
+                "from 9 June to 31 July 2026 it returned −5.02% against the S&P 500's "
+                "+1.35%, an alpha of −6.37%, with a maximum drawdown of 8.79% across "
+                "15 completed round trips. Of its 233 tracked recommendations, the 132 "
+                "it chose to trade are down 24.7% held to date while the 101 it passed "
+                "over are down 1.0%, and its high-conviction traded picks did worst of "
+                "all at −31.3%. Reconciling the app's own ledger against the broker "
+                "found 12 discrepancies overstating losses by $47.61, so every figure "
+                "is taken from the broker rather than the app. A record of one small "
+                "personal account — not investment advice; the source is a private repo."
             ),
             "author": PERSON_REF,
         },
