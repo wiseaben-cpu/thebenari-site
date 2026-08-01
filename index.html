@@ -52,7 +52,7 @@ a:hover{text-decoration:none}
   [data-nav] > div{gap:16px !important;font-size:11px !important}
   [data-nav] > div > a:not(:last-child){display:none !important}
   [data-nav] > div > a:last-child{padding:0 18px !important;min-height:44px !important;display:inline-flex !important;align-items:center !important}
-  [data-stage]{height:210vh !important;margin-top:-68px !important}
+  [data-stage]{height:150vh !important;margin-top:-68px !important}
   [data-sticky]{padding-top:68px !important}
   [data-sticky] > div:first-child{padding:24px 22px 56px !important;gap:22px !important}
   [data-mark]{width:min(190px,44vw) !important}
@@ -88,7 +88,7 @@ a:hover{text-decoration:none}
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0352BA"></rect><text x="50" y="60" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="900" letter-spacing="-1" fill="#EDE9E4" text-anchor="middle">BW</text></svg></template>
 </helmet>
 
-<div style="background:#0352BA;color:#EDE9E4;font-family:Archivo,'Helvetica Neue',Helvetica,sans-serif;-webkit-font-smoothing:antialiased">
+<div style="color: #EDE9E4; font-family: Archivo,'Helvetica Neue',Helvetica,sans-serif; -webkit-font-smoothing: antialiased; background-color: #0352BA">
 
 <nav data-nav="1" style="position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:32px;padding:18px 64px;background:rgba(3,82,186,0);transition:background 200ms cubic-bezier(.2,0,0,1),box-shadow 200ms">
   <a href="#top" style="display:inline-flex;align-items:center;gap:12px">
@@ -103,10 +103,15 @@ a:hover{text-decoration:none}
   </div>
 </nav>
 
-<section id="top" data-stage="1" style="position:relative;height:320vh;margin-top:-62px">
+<section id="top" data-stage="1" style="position:relative;height:220vh;margin-top:-62px">
   <div data-sticky="1" style="position:sticky;top:0;height:100vh;box-sizing:border-box;overflow:hidden;display:grid;grid-template-rows:1fr;padding-top:62px">
   <div style="position:relative;z-index:1;display:grid;place-items:center;align-content:center;gap:30px;padding:40px 64px 64px">
-    <img src="assets/flock-cream.svg" alt="Benji Wise" data-mark="1" style="width:min(300px,26vw);will-change:transform">
+    <img src="assets/flock-cream.svg" alt="Benji Wise" data-mark="1" style="width: min(300px,26vw); will-change: transform; position: relative; left: 33px">
+    <div data-intro="1" aria-hidden="true" style="position:absolute;left:0;top:0;pointer-events:none;z-index:2">
+      <img data-bird="glide" src="assets/birds/glide-cream.svg" alt="" style="position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity">
+      <img data-bird="climb" src="assets/birds/climb-cream.svg" alt="" style="position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity">
+      <img data-bird="land" src="assets/birds/land-cream.svg" alt="" style="position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity">
+    </div>
     <h1 data-fade="1" style="margin:0;font-weight:900;font-size:clamp(64px,9.4vw,148px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;text-align:center">Benji Wise</h1>
     <p data-fade="1" data-fade-offset="18" style="margin: 0; text-align: center; font-size: 15px; line-height: 1.45; color: #EDE9E4; font-weight: 500; letter-spacing: .22em; text-transform: uppercase">Collecting knowledge, connecting dots</p>
   </div>
@@ -400,26 +405,22 @@ class Component extends DCLogic {
       }
     };
     const apply = (p) => {
-      // 0 → .30  the flock settles from centred-and-large into its place
-      const settle = easeOut(seg(p, 0, 0.3));
-      if (mark) mark.style.transform = 'translateY(' + (this._markCenterDelta * (1 - settle)) + 'px) scale(' + (1 + 0.72 * (1 - settle)) + ')';
-      // .16 → .46  copy and the three doors fade up
-      fades.forEach((el) => {
-        const o = parseFloat(el.getAttribute('data-fade-offset') || '0') / 100;
-        const t = easeOut(seg(p, 0.16 + o, 0.46 + o));
-        el.style.opacity = String(t);
-        el.style.transform = 'translateY(' + (16 * (1 - t)) + 'px)';
-      });
-      if (hint) {
-        const ho = 1 - seg(p, 0.02, 0.16);
-        hint.style.opacity = String(ho);
-        hint.style.pointerEvents = ho < 0.05 ? 'none' : 'auto';
+      // The landing intro owns the mark, the copy and the hint until it has finished —
+      // the flock arrives, breathes and rises there, so scroll must not fight it.
+      if (!this._introRunning) {
+        if (mark) mark.style.transform = 'translateY(0px) scale(1)';
+        fades.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'translateY(0px)'; });
+        if (hint) {
+          const ho = 1 - seg(p, 0.04, 0.2);
+          hint.style.opacity = String(ho);
+          hint.style.pointerEvents = ho < 0.05 ? 'none' : 'auto';
+        }
       }
-      // .58 → 1  a hairline appears, widens, then grows up into the next section
+      // .10 → 1  a hairline appears, widens, then grows up into the next section
       if (grow) {
-        const line = seg(p, 0.58, 0.62);
-        const wide = easeInOut(seg(p, 0.62, 0.74));
-        const tall = easeInOut(seg(p, 0.72, 1));
+        const line = seg(p, 0.1, 0.16);
+        const wide = easeInOut(seg(p, 0.16, 0.36));
+        const tall = easeInOut(seg(p, 0.32, 1));
         grow.style.height = (line * 2 + tall * window.innerHeight * 1.02) + 'px';
         grow.style.width = (44 + wide * 56) + 'vw';
         grow.style.opacity = String(line);
@@ -440,6 +441,120 @@ class Component extends DCLogic {
     measure();
     sm = target;
     frame();
+    if (window.scrollY < 4) this._playIntro(mark, fades, hint);
+  }
+
+  /**
+   * Landing sequence: three birds fly in from off-frame and shrink into the centre, hand off
+   * to the flock mark, it breathes twice, then rises to its resting slot as the name appears.
+   * Runs only at the top of the page; any scroll input snaps it to its end state.
+   */
+  _playIntro(mark, fades, hint) {
+    const intro = document.querySelector('[data-intro]');
+    const birds = intro ? Array.from(intro.querySelectorAll('img')) : [];
+    if (!mark || !birds.length) return;
+
+    const D = this._markCenterDelta;
+    const big = 'translateY(' + D + 'px) scale(1.72)';
+    const rest = 'translateY(0px) scale(1)';
+    const EASE = 'cubic-bezier(.16,.84,.44,1)';
+    this._introRunning = true;
+    this._introTimers = [];
+    mark.style.opacity = '0';
+    mark.style.transform = big;
+    fades.forEach((el) => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; });
+    if (hint) { hint.style.animation = 'none'; hint.style.opacity = '0'; hint.style.pointerEvents = 'none'; }
+
+    // Each single-bird SVG shares the flock's 4167 artboard and sits dead centre in it, so a
+    // bird lands exactly on its counterpart in the mark at scale .5269 plus the offsets below
+    // (measured from the artwork, expressed as a fraction of the mark box). The intro birds
+    // are sized and placed to the mark's own box, then carry the mark's centred transform —
+    // so the hand-off to the flock is a straight cross-fade with nothing moving.
+    const SEAT = 0.5269;
+    const SEATS = {
+      glide: { x: -0.22078, y: 0.21603, from: [-0.78, 0.3], delay: 0 },
+      climb: { x: -0.17544, y: -0.22839, from: [0.26, -0.66], delay: 130 },
+      land: { x: 0.23336, y: 0.04665, from: [0.82, 0.34], delay: 260 }
+    };
+    const M = mark.offsetWidth, MH = mark.offsetHeight;
+    const at = (dx, dy, s) => 'translateY(' + D + 'px) scale(1.72) translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+    // Whole sequence runs at 1.33x — every duration and gap below goes through T().
+    const T = (ms) => Math.round(ms * 0.75);
+    const FLY = T(1050);
+    birds.forEach((b) => {
+      const s = SEATS[b.getAttribute('data-bird')] || SEATS.glide;
+      b.style.width = M + 'px';
+      b.style.height = MH + 'px';
+      b.style.left = mark.offsetLeft + 'px';
+      b.style.top = mark.offsetTop + 'px';
+      // Entry point is pushed off-frame in the mark's own scaled space.
+      const fx = s.from[0] * window.innerWidth / 1.72;
+      const fy = s.from[1] * window.innerHeight / 1.72;
+      b.animate([
+        { transform: at(fx, fy, SEAT * 2.4), opacity: 0 },
+        { opacity: 1, offset: 0.22 },
+        { transform: at(s.x * M, s.y * MH, SEAT), opacity: 1 }
+      ], { duration: FLY, delay: T(s.delay), easing: EASE, fill: 'both' });
+    });
+
+    const after = (ms, fn) => { this._introTimers.push(setTimeout(fn, ms)); };
+    const land = FLY + T(260);
+    after(land, () => {
+      // Hard swap, not a cross-fade: the birds sit exactly on the flock, and two half-opaque
+      // copies of the same shape composite to ~75% coverage — which reads as a flash.
+      mark.style.opacity = '1';
+      birds.forEach((b) => {
+        if (b.getAnimations) b.getAnimations().forEach((a) => a.cancel());
+        b.style.opacity = '0';
+      });
+      if (intro) intro.style.display = 'none';
+    });
+
+    // One breath: 780ms inhale, .5s held at the top — 1s of stillness after the birds land
+    // before it starts. The exhale is not a separate beat: the mark releases straight out of
+    // the peak into its resting slot, so the shrink and the float are one continuous move.
+    const peak = 'translateY(' + (D - 22) + 'px) scale(1.89)';
+    // The breath alone runs 1.5x longer than the rest of the sequence.
+    const INHALE = T(1170);
+    const BREATH = INHALE + T(750);
+    const breatheAt = land + T(1000);
+    after(breatheAt, () => {
+      mark.animate([
+        { transform: big, easing: 'cubic-bezier(.32,0,.42,1)' },
+        { transform: peak, offset: INHALE / BREATH },
+        { transform: peak }
+      ], { duration: BREATH, fill: 'forwards' });
+    });
+
+    const riseAt = breatheAt + BREATH + T(250);
+    const RISE = T(2375);
+    after(riseAt, () => {
+      mark.animate([{ transform: peak }, { transform: rest }], { duration: RISE, easing: 'cubic-bezier(.42,0,.18,1)', fill: 'forwards' });
+      fades.forEach((el, i) => {
+        el.animate([
+          { opacity: 0, transform: 'translateY(16px)' },
+          { opacity: 1, transform: 'translateY(0px)' }
+        ], { duration: T(680), delay: T(1400 + i * 140), easing: EASE, fill: 'forwards' });
+      });
+      if (hint) hint.animate([{ opacity: 0 }, { opacity: 1 }], { duration: T(500), delay: T(2000), easing: EASE, fill: 'forwards' });
+    });
+
+    const end = () => {
+      if (!this._introRunning) return;
+      this._introRunning = false;
+      this._introTimers.forEach(clearTimeout);
+      [mark].concat(fades, hint ? [hint] : []).forEach((el) => {
+        if (el && el.getAnimations) el.getAnimations().forEach((a) => a.cancel());
+      });
+      mark.style.opacity = '1';
+      mark.style.transform = rest;
+      fades.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'translateY(0px)'; });
+      if (hint) { hint.style.opacity = '1'; hint.style.pointerEvents = 'auto'; }
+      if (intro) intro.style.display = 'none';
+      ['wheel', 'touchmove', 'keydown'].forEach((ev) => window.removeEventListener(ev, end));
+    };
+    after(riseAt + RISE + T(350), end);
+    ['wheel', 'touchmove', 'keydown'].forEach((ev) => window.addEventListener(ev, end, { passive: true, once: true }));
   }
 
   _initFlockDrop(grow) {

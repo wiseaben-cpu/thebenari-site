@@ -41,40 +41,30 @@ a{color:#0352BA;text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:4px}
 @keyframes strike{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}}
-/* Phones. Inline styles everywhere, so overrides need !important and are targeted by
-   element/position. Without this the 3-up cards, the 4-up stat grid and 48px gutters
-   overflow a 390px viewport, and the equity chart collapses to an unreadable sliver. */
+/* Phones. Inline styles throughout, so overrides need !important and are targeted by
+   data attribute. Without this the 4-up numeral band and 48px gutters overflow 390px. */
 @media (max-width: 760px){
-  /* Grid and flex items default to min-width:auto, so they refuse to shrink below their
-     content. Nested several levels deep (main > section > inner grids) that compounds into a
-     hard floor: a 390px viewport was being forced to 549px and the whole page scrolled
-     sideways. Overriding one level only got it to 512px — every layout box has to yield. */
-  header, header *, main, main *, footer, footer *{min-width:0 !important}
-  /* Only prose breaks. Applying this to everything shattered the stat figures into one
-     character per line ("+ 1 8 %"), because min-width:0 lets those tiles get very narrow. */
-  main p, main h1, main h2{overflow-wrap:break-word !important}
+  /* Grid/flex items default to min-width:auto and refuse to shrink below their content;
+     nested several levels deep that compounds into a hard horizontal-scroll floor. */
+  header, header *, [data-hero] *, [data-band], [data-band] *, [data-chart-card], [data-chart-card] *, [data-notes], [data-notes] *, footer, footer *{min-width:0 !important}
   header{padding:14px 20px !important;gap:12px !important}
-  main{padding:28px 20px 32px !important;gap:24px !important}
-  main h1{font-size:clamp(32px,9vw,46px) !important;max-width:none !important}
-  /* Mode toggle: let the two buttons share a row rather than overflow. */
-  main > div:first-of-type{gap:18px !important}
-  main > div:first-of-type > div:last-child{width:100% !important}
-  main > div:first-of-type > div:last-child > button{flex:1 1 0 !important;padding:14px 12px !important}
-  /* 3-up "what happened" cards -> stacked */
-  main > div:nth-of-type(2){grid-template-columns:1fr !important}
-  section{padding:18px 16px 16px !important;gap:16px !important}
-  section h2{font-size:16px !important}
-  /* 4-up stats -> 2x2; four across at 390px is ~78px each and unreadable.
-     nth-of-type(4), NOT :last-of-type — the verdict bar is the last div in the section. */
-  section > div:nth-of-type(4){grid-template-columns:repeat(2,1fr) !important;gap:10px !important}
-  section > div:nth-of-type(4) > div{padding:12px 14px !important}
+  [data-hero]{padding:44px 20px 40px !important;gap:22px !important}
+  [data-hero] h1{font-size:clamp(38px,12vw,64px) !important;max-width:none !important}
+  [data-hero] p{font-size:16px !important;max-width:none !important}
+  /* Four oversized numerals across a phone is ~78px each and unreadable — go 2x2. */
+  [data-band]{grid-template-columns:repeat(2,1fr) !important}
+  [data-band] > div{padding:22px 18px !important}
+  [data-band] span[data-figure]{font-size:clamp(34px,11vw,52px) !important}
+  [data-chart-card]{padding:20px 16px 18px !important;gap:16px !important;margin:0 20px !important}
+  [data-toggle]{width:100% !important}
+  [data-toggle] > button{flex:1 1 0 !important;padding:14px 10px !important}
   /* preserveAspectRatio="none" squashes the curve flat at narrow widths */
-  [data-chart] svg{min-height:200px !important}
-  /* The prose sections are rules, not cards, so the generic `section` padding above would
-     inset them 16px inside main's own 20px gutter and make them read as a third column.
-     Attribute selector outranks the bare `section` rule, so order here doesn't matter. */
-  section[data-prose]{padding:16px 0 0 !important;gap:12px !important}
-  section[data-prose] p{font-size:16px !important}
+  [data-chart] svg{min-height:210px !important}
+  [data-notes]{padding:44px 20px 52px !important;gap:30px !important}
+  [data-notes] [data-cols]{grid-template-columns:1fr !important;gap:26px !important}
+  [data-notes] p{font-size:16px !important}
+  /* Timeline: the 132px date rail plus a text column won't fit — stack date over text. */
+  [data-timeline] [data-row]{grid-template-columns:1fr !important;gap:8px !important;padding:16px 0 !important}
   footer{flex-direction:column !important;align-items:flex-start !important;gap:10px !important;padding:16px 20px !important}
 }
 </style>
@@ -90,32 +80,48 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
     <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">02 — Tested to break</span>
   </header>
 
-  <main style="max-width:1280px;width:100%;margin:0 auto;padding:44px 48px;box-sizing:border-box;display:grid;gap:32px;align-content:start">
+  <main style="display:grid;align-content:start">
 
-    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px">
-      <h1 style="margin:0;font-weight:900;font-size:clamp(40px,4.6vw,72px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;max-width:20ch">It traded its own <span style="position:relative;white-space:nowrap">best<span aria-hidden="true" style="position:absolute;left:-1%;right:-1%;top:52%;height:6px;background:#E3170A;transform-origin:left;animation:strike 700ms 500ms cubic-bezier(.6,0,.2,1) both"></span></span> worst ideas</h1>
-      <div style="display:flex;gap:8px">
-        <button data-mode="account" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:#0352BA;color:#EDE9E4;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">The account</button>
-        <button data-mode="picks" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:transparent;color:#241E1A;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">The picks</button>
+    <section data-hero="1" style="position:relative;overflow:hidden;background:#0352BA;color:#EDE9E4;padding:96px 48px 88px;display:grid;gap:28px">
+      <img src="assets/flock-cream.svg" alt="" aria-hidden="true" style="position:absolute;right:-90px;top:-40px;width:min(620px,56vw);opacity:.18;pointer-events:none;user-select:none">
+      <span style="position:relative;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,233,228,.88)">37 trading days · real money · Robinhood</span>
+      <h1 style="position:relative;margin:0;font-weight:900;font-size:clamp(46px,7.6vw,116px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;max-width:15ch">It traded its own <span style="position:relative;white-space:nowrap">best<span aria-hidden="true" style="position:absolute;left:-1%;right:-1%;top:52%;height:.09em;background:#E3170A;transform-origin:left;animation:strike 700ms 500ms cubic-bezier(.6,0,.2,1) both"></span></span> worst ideas</h1>
+      <p style="position:relative;margin:0;max-width:56ch;font-size:clamp(17px,1.5vw,20px);line-height:1.45;text-wrap:pretty;color:rgba(237,233,228,.88)">An unattended bot placed real orders for 37 days. It lost 5.0%; the market rose 1.4%. The loss isn't the story — the picks it chose to trade did far worse than the ones it skipped.</p>
+    </section>
+
+    <div data-band="1" style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#241E1A">
+      <div style="background:#EDE9E4;padding:38px 30px 34px;display:grid;gap:14px;align-content:start">
+        <span data-figure="1" style="font-weight:900;font-size:clamp(44px,5.4vw,86px);line-height:.82;letter-spacing:-.04em;color:#E3170A">−24.7%</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Picks it traded</span>
+      </div>
+      <div style="background:#EDE9E4;padding:38px 30px 34px;display:grid;gap:14px;align-content:start">
+        <span data-figure="1" style="font-weight:900;font-size:clamp(44px,5.4vw,86px);line-height:.82;letter-spacing:-.04em">−1.0%</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Picks it skipped</span>
+      </div>
+      <div style="background:#EDE9E4;padding:38px 30px 34px;display:grid;gap:14px;align-content:start">
+        <span data-figure="1" style="font-weight:900;font-size:clamp(44px,5.4vw,86px);line-height:.82;letter-spacing:-.04em;color:#E3170A">−31.3%</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Its high-conviction picks</span>
+      </div>
+      <div style="background:#EDE9E4;padding:38px 30px 34px;display:grid;gap:14px;align-content:start">
+        <span data-figure="1" style="font-weight:900;font-size:clamp(44px,5.4vw,86px);line-height:.82;letter-spacing:-.04em;color:#0352BA">$47.61</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Its ledger was off by</span>
       </div>
     </div>
 
-    <p style="margin:0;max-width:64ch;font-size:clamp(17px,1.5vw,19px);line-height:1.5;text-wrap:pretty">An autonomous system that screens, sizes and places real orders on a live Robinhood account, unattended. It ran real money for 37 trading days and lost 5.0% while the S&amp;P 500 rose 1.4%. The loss isn't the interesting part. The picks it chose to trade did far worse than the ones it passed over — and the more confident it was, the worse they were.</p>
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(36,30,26,.14);border:1px solid rgba(36,30,26,.14)">
-      <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">01 — Built it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em">37 days live</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">Real orders, real money, unattended</span></div>
-      <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">02 — Tested it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em;color:#E3170A">−6.37%</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">Behind the index it traded inside</span></div>
-      <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">03 — Caught it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em;color:#0352BA">$47.61</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">Its own ledger was wrong; the broker was right</span></div>
-    </div>
-
-    <section style="background:#FBF4EF;border:1px solid rgba(36,30,26,.14);padding:26px 26px 22px;display:grid;gap:18px">
-      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:16px">
-        <h2 data-chart-title="1" style="margin:0;font-weight:900;font-size:18px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">—</h2>
-        <span data-chart-sub="1" style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">—</span>
+    <section data-chart-card="1" style="background:#FBF4EF;border-top:2px solid #241E1A;border-bottom:2px solid #241E1A;padding:34px 48px 30px;display:grid;gap:22px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
+        <div style="display:grid;gap:8px">
+          <h2 data-chart-title="1" style="margin:0;font-weight:900;font-size:clamp(20px,2.2vw,30px);line-height:1;letter-spacing:-.03em;text-transform:uppercase">—</h2>
+          <span data-chart-sub="1" style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">—</span>
+        </div>
+        <div data-toggle="1" style="display:flex;gap:8px">
+          <button data-mode="picks" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:#0352BA;color:#EDE9E4;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">The picks</button>
+          <button data-mode="account" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:transparent;color:#241E1A;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">The account</button>
+        </div>
       </div>
 
       <div data-chart="1" style="position:relative;width:100%">
-        <svg data-svg="1" viewBox="0 0 920 420" preserveAspectRatio="none" aria-label="Performance chart" style="width:100%;height:auto;display:block;overflow:visible;font-family:Archivo,Helvetica,sans-serif"></svg>
+        <svg data-svg="1" viewBox="0 0 920 380" preserveAspectRatio="none" aria-label="Performance chart" style="width:100%;height:auto;display:block;overflow:visible;font-family:Archivo,Helvetica,sans-serif"></svg>
         <div data-tip="1" style="position:absolute;left:0;top:0;opacity:0;pointer-events:none;transition:opacity 120ms;background:#241E1A;color:#EDE9E4;padding:8px 11px;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;z-index:5"></div>
       </div>
 
@@ -123,61 +129,79 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
         <span style="display:inline-flex;align-items:center;gap:9px"><span style="display:block;width:24px;border-top:3px solid #0352BA"></span><span data-legend="series">—</span></span>
         <span style="display:inline-flex;align-items:center;gap:9px"><span style="display:block;width:24px;border-top:2px dashed rgba(36,30,26,.55)"></span><span data-legend="compare">—</span></span>
       </div>
+    </section>
 
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span data-label="0" style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">—</span><span data-metric="0" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
-        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span data-label="1" style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">—</span><span data-metric="1" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
-        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span data-label="2" style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">—</span><span data-metric="2" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
-        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span data-label="3" style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">—</span><span data-metric="3" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
+    <section data-notes="1" style="padding:76px 48px 84px;display:grid;gap:44px">
+      <div data-cols="1" style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1360px">
+        <div style="display:grid;gap:14px;align-content:start">
+          <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);display:inline-flex;align-items:center;gap:12px"><span style="background:#0352BA;color:#EDE9E4;font-weight:700;padding:4px 10px">01</span>Built it</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">It screens, decides, sizes and places its own orders — no human in the loop. 233 recommendations, 32 filled orders. The code froze on 22 June, so nothing was tuned mid-flight to flatter the record.</p>
+        </div>
+        <div style="display:grid;gap:14px;align-content:start">
+          <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);display:inline-flex;align-items:center;gap:12px"><span style="background:#0352BA;color:#EDE9E4;font-weight:700;padding:4px 10px">02</span>Tested it</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">Because it logs what it skipped, it can be graded against itself — and its confidence ran backwards. The cause was concentration: 25 companies, two names it kept re-entering. Only the stops kept a bad quarter from being a wipeout.</p>
+        </div>
+        <div style="display:grid;gap:14px;align-content:start">
+          <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);display:inline-flex;align-items:center;gap:12px"><span style="background:#0352BA;color:#EDE9E4;font-weight:700;padding:4px 10px">03</span>Caught it</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">Its own books claimed a $91.46 loss; the broker said $43.86. It was overstating the damage by more than the damage. Every figure here comes from the broker, not the app.</p>
+        </div>
       </div>
 
-      <div data-verdict="1" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 20px;background:#E3170A;color:#EDE9E4">
-        <span data-verdict-title="1" style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">—</span>
-        <span data-verdict-text="1" style="font-size:14px;line-height:1.4">—</span>
+      <div data-timeline="1" style="display:grid;gap:0;max-width:1360px">
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55);padding-bottom:18px">The process, and what each change did</span>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:2px solid #241E1A;padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">09 Jun</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">Rebuilt as a Python backend. The scheduler runs, auto-trading is off — recommendations pile up, no orders. Day 0, no money at risk.</p>
+        </div>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:1px solid rgba(36,30,26,.14);padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase;color:#0352BA">10 Jun</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">The pivot: the screener becomes a portfolio that places its own orders. First real fill lands the same day. Trailing stops and the memory layer switch on together — from here, most exits are a stop firing.</p>
+        </div>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:1px solid rgba(36,30,26,.14);padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase;color:#0352BA">11 Jun</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">Its own backtest finds the scoring model has no durable edge. A momentum rewrite ships hours later, and every fill after this belongs to it. The lots ledger is created the same day — the component that later drifts from the broker.</p>
+        </div>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:1px solid rgba(36,30,26,.14);padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">12 Jun</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">The allocator goes live and rebuilds the book in one pass — six positions liquidated. A one-whole-share minimum makes sizing chunky: a single share could be a fifth of the account.</p>
+        </div>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:1px solid rgba(36,30,26,.14);padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase;color:#0352BA">22 Jun</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">Code freeze. Everything after this date is one unchanged build running unattended — which is what makes the record worth reading.</p>
+        </div>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:1px solid rgba(36,30,26,.14);padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">25 Jun</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">Two positions exit and the ledger records neither — $378.09 of proceeds it never saw. The drift starts here.</p>
+        </div>
+
+        <div data-row="1" style="display:grid;grid-template-columns:132px 1fr;gap:28px;border-top:1px solid rgba(36,30,26,.14);border-bottom:1px solid rgba(36,30,26,.14);padding:20px 0">
+          <span style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">02 Jul</span>
+          <p style="margin:0;font-size:17px;line-height:1.5;max-width:70ch;text-wrap:pretty">Last broker exit. The book has been static since; the numbers above are what the frozen build left behind.</p>
+        </div>
       </div>
-    </section>
 
-    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
-      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">Built it: an unattended book on a live broker</h2>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The system scores candidates, decides what to hold, sizes each position to real buying power, and places the orders itself on a Robinhood account. No human in the loop. Over the window it made 103 screener runs, scored 337 candidates, produced 233 recommendations and placed 43 orders, of which 32 filled.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The code froze on 22 June. Everything after that date is one unchanged build running on its own — which is what makes the record worth reading at all. Nothing was tuned mid-flight to flatter it.</p>
-    </section>
-
-    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
-      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">Tested it: it bought its own worst ideas</h2>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Every recommendation is tracked, whether or not it was traded — which makes the system gradeable against itself. Of 233 recommendations, it chose to trade 132 and passed over 101. Held to today, the ones it traded are down <b>24.7%</b>. The ones it passed over are down <b>1.0%</b>.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">That gap is not a quirk of timing or sizing. It holds on every single entry date and at every conviction level, and it runs the wrong way: the picks it marked <i>high conviction</i> and traded are the worst group on the page, down <b>31.3%</b>. Its confidence was inversely related to its results.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The cause is concentration. Those 233 recommendations cover only 25 distinct companies, and just 10 were ever traded — dominated by two names it kept re-entering, RKLB (49 recommendations) and ASTS (39). Its own memory layer eventually wrote the lesson down: <i>"Hard skip on RKLB/product_launch, no exceptions."</i> By then the money was spent.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">One thing did work. Those traded picks would have lost 24.7% held to today; the account only lost 4.8%, because the stops kept firing and cutting them. The risk layer is the reason this is a bad quarter instead of a wipeout — the selection logic is what failed.</p>
-    </section>
-
-    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
-      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">Caught it: the ledger was wrong by $47.61</h2>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">The app keeps its own ledger of what it thinks it owns. Reconciling that ledger against the broker's actual fills found it disagreed in 12 places: exits recorded at the wrong price, three trades the broker executed that the ledger never recorded, and three positions the ledger booked as closed that Robinhood still holds.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Its own books claimed a realized loss of $91.46. The broker says $43.86. The ledger was overstating losses by <b>$47.61</b> — more than the real loss itself.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Every figure on this page comes from the broker, not the app, for exactly that reason. A system that reports its own performance and grades its own homework will eventually tell you a comfortable lie. The reconciliation is the part I would build first next time.</p>
-    </section>
-
-    <section data-prose="1" style="border-top:2px solid #241E1A;padding:22px 0 0;display:grid;gap:14px;align-content:start">
-      <h2 style="margin:0;font-weight:900;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:-.03em;text-transform:uppercase">What this can't tell you</h2>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Thirty-seven trading days, 15 completed round trips, 10 traded names, one $1,500 account. That is far too small to separate a bad strategy from bad luck, and nothing here should be read as evidence that momentum, or LLM agents, or this system, does or doesn't work. A result this size would need to repeat across many more trades and a full market cycle before it meant anything.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">What it does show is that the machinery works end to end: it screens, decides, sizes, places real orders, tracks what it passed over, and can be caught lying to itself. That was the thing being tested.</p>
-
-      <h3 style="margin:8px 0 0;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Method</h3>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty">Positions, fills, cash and realized P&amp;L are pulled from the broker; the equity curve is rebuilt by replaying every fill in FIFO order and marking holdings at daily closes. Benchmark is SPY buy-and-hold over the identical window. Round trips are FIFO-matched broker fills, cross-checked against Robinhood's own realized-P&amp;L figure. Recommendation returns are marked from the recommended entry price to the latest close, so they show the pick held rather than the trade taken. Commission-free broker; prices are unadjusted daily closes.</p>
-      <p style="margin:0;max-width:68ch;font-size:17px;line-height:1.5;text-wrap:pretty;color:rgba(36,30,26,.55)">Real money, live orders, 9 June – 31 July 2026. Past results say nothing about future ones. Nothing on this page is investment advice or a recommendation, and it is a record of one small personal account, not an offer to manage anyone else's. The production system is a private repo.</p>
+      <div style="border-top:2px solid #241E1A;padding-top:26px;display:grid;gap:12px;max-width:74ch">
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">What this can't tell you</span>
+        <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty;color:rgba(36,30,26,.55)">37 days, 15 round trips, one $1,500 account — far too small to separate a bad strategy from bad luck. Figures are broker-sourced; the equity curve replays every fill in FIFO order against daily closes, benchmarked to SPY over the identical window. Not investment advice.</p>
+      </div>
     </section>
 
   </main>
 
   <footer style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding:16px 48px;border-top:1px solid rgba(36,30,26,.14);font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">
-    <span>Real money · $1,500 account · 37 trading days · figures from the broker · not investment advice</span>
+    <span>Real money · 9 Jun – 31 Jul 2026 · figures from the broker</span>
     <a href="index.html">← Back to the work</a>
   </footer>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:750}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900}}">
 class Component extends DCLogic {
   componentDidMount() {
     this.svg = document.querySelector('[data-svg]');
@@ -185,56 +209,42 @@ class Component extends DCLogic {
     this.tip = document.querySelector('[data-tip]');
     if (!this.svg) return;
 
-    // Real figures, 2026-06-09 → 2026-07-31. Sourced from the broker (Robinhood), not from
+    // Real figures, 2026-06-09 → 2026-07-31, sourced from the broker (Robinhood) rather than
     // the app's own ledger — the ledger was wrong by $47.61, which is why the page says so.
-    // "account" is the live equity curve; "picks" grades the recommendation list against
-    // itself, on a FIXED cohort (all 233 exist by 06-23) so the denominator never moves.
+    // "picks" grades the recommendation list against itself on a FIXED cohort (all 233 exist
+    // by 06-23) so the denominator never moves; "account" is the live equity curve.
     this.modes = {
+      picks: {
+        title: 'What it traded vs what it skipped',
+        sub: '233 recommendations · held to 31 Jul',
+        seriesLabel: 'Traded (132 picks)',
+        compareLabel: 'Skipped (101 picks)',
+        dates: ['06-24','06-25','06-26','06-29','06-30','07-01','07-02','07-06','07-07','07-08','07-09','07-10','07-13','07-14','07-15','07-16','07-17','07-20','07-27','07-28','07-29','07-31'],
+        series: [-12.49,-15.82,-11.61,-0.99,0.87,0.87,0.87,-2.49,-9.2,-8.92,-8.79,-8.79,-12.48,-12.31,-12.84,-21.31,-21.45,-22.71,-22.36,-24.65,-28.19,-24.74],
+        compare: [7.4,6.23,7.57,10.15,12.33,12.33,12.33,15.13,15.23,14.04,14.38,14.38,8.51,9.3,8.81,4.4,2.67,2.6,-0.36,-2.68,-4.6,-0.98]
+      },
       account: {
         title: 'Real money vs the market',
         sub: '9 Jun – 31 Jul 2026 · 37 trading days',
-        seriesLabel: 'The account',
-        compareLabel: 'SPY (buy & hold)',
+        seriesLabel: 'The account (−5.0%)',
+        compareLabel: 'SPY (+1.4%)',
         dates: ['06-09','06-10','06-11','06-12','06-15','06-16','06-17','06-18','06-22','06-23','06-24','06-25','06-26','06-29','06-30','07-01','07-02','07-06','07-07','07-08','07-09','07-10','07-13','07-14','07-15','07-16','07-17','07-20','07-21','07-22','07-23','07-24','07-27','07-28','07-29','07-30','07-31'],
         series: [0,-0.23,3.3,-0.78,0.03,-1.88,-1.09,0.18,-0.51,-1.31,-1.91,-2.64,-2.13,-1.96,-1.92,-3.31,-4,-4.11,-4.25,-4.21,-4.23,-4.37,-4.48,-3.99,-4.06,-4.32,-4.48,-4.55,-3.9,-3.66,-3.16,-3.4,-4.29,-4.82,-5.79,-5.61,-5.02],
-        compare: [0,-1.58,0.1,0.64,2.41,1.8,0.53,1.31,1,-0.47,-0.52,-0.37,-1.09,0.54,1.32,1.18,1.05,1.93,1.45,1.13,1.99,2.43,1.64,2,2.41,1.85,0.85,0.68,1.52,1.41,0.15,0.26,0.28,0.52,-1.03,0.63,1.35],
-        stats: [
-          { label: 'Total return', v: '−5.02%', col: '#E3170A' },
-          { label: 'SPY, same window', v: '+1.35%', col: '#241E1A' },
-          { label: 'Alpha vs SPY', v: '−6.37%', col: '#E3170A' },
-          { label: 'Max drawdown', v: '−8.79%', col: '#241E1A' }
-        ],
-        vTitle: 'Behind the market', vTxt: '37 trading days and 15 round trips — a first result, not a track record.', band: '#E3170A'
-      },
-      picks: {
-        title: 'What it traded vs what it passed over',
-        sub: '233 recommendations · fixed cohort · held to 31 Jul',
-        seriesLabel: 'Traded (132 picks)',
-        compareLabel: 'Passed over (101 picks)',
-        dates: ['06-24','06-25','06-26','06-29','06-30','07-01','07-02','07-06','07-07','07-08','07-09','07-10','07-13','07-14','07-15','07-16','07-17','07-20','07-27','07-28','07-29','07-31'],
-        series: [-12.49,-15.82,-11.61,-0.99,0.87,0.87,0.87,-2.49,-9.2,-8.92,-8.79,-8.79,-12.48,-12.31,-12.84,-21.31,-21.45,-22.71,-22.36,-24.65,-28.19,-24.74],
-        compare: [7.4,6.23,7.57,10.15,12.33,12.33,12.33,15.13,15.23,14.04,14.38,14.38,8.51,9.3,8.81,4.4,2.67,2.6,-0.36,-2.68,-4.6,-0.98],
-        stats: [
-          { label: 'Picks it traded', v: '−24.7%', col: '#E3170A' },
-          { label: 'Picks it passed over', v: '−1.0%', col: '#241E1A' },
-          { label: 'High conviction, traded', v: '−31.3%', col: '#E3170A' },
-          { label: 'Names ever traded', v: '10', col: '#241E1A' }
-        ],
-        vTitle: 'It picked its worst ideas', vTxt: 'The more confident it was, the worse it did.', band: '#E3170A'
+        compare: [0,-1.58,0.1,0.64,2.41,1.8,0.53,1.31,1,-0.47,-0.52,-0.37,-1.09,0.54,1.32,1.18,1.05,1.93,1.45,1.13,1.99,2.43,1.64,2,2.41,1.85,0.85,0.68,1.52,1.41,0.15,0.26,0.28,0.52,-1.03,0.63,1.35]
       }
     };
 
     this.NS = 'http://www.w3.org/2000/svg';
-    this.W = 920; this.H = 420; this.L = 62; this.R = 20; this.T = 20; this.B = 40;
+    this.W = 920; this.H = 380; this.L = 62; this.R = 20; this.T = 20; this.B = 40;
     this.pw = this.W - this.L - this.R; this.ph = this.H - this.T - this.B;
-    // Scales are per-mode: real returns go negative, and the two modes differ by 4x in range.
+    // Scales are per-mode: real returns go negative, and the two modes differ ~4x in range.
     this.buildStatic();
     document.querySelectorAll('[data-mode]').forEach((b) => {
       b.addEventListener('click', () => this.setMode(b.getAttribute('data-mode'), true));
     });
     this.chart.addEventListener('mousemove', (e) => this.onMove(e));
     this.chart.addEventListener('mouseleave', () => { this.hover.style.opacity = '0'; this.tip.style.opacity = '0'; });
-    this.setMode('account', !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.setMode('picks', !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
 
   el(tag, attrs) {
@@ -280,7 +290,7 @@ class Component extends DCLogic {
     this.svg.appendChild(this.hover);
   }
 
-  /** Gridlines and date ticks are rebuilt per mode — the two modes differ in range and length. */
+  /** Gridlines and date ticks are rebuilt per mode — the modes differ in range and length. */
   drawAxis(M) {
     while (this.axis.firstChild) this.axis.removeChild(this.axis.firstChild);
     const sc = this.scaleFor(M);
@@ -301,7 +311,7 @@ class Component extends DCLogic {
   }
 
   setMode(mode, animate) {
-    const M = this.modes[mode] || this.modes.account;
+    const M = this.modes[mode] || this.modes.picks;
     const arr = M.series;
     this.cur = arr; this.curM = M; this.n = arr.length;
     this.drawAxis(M);
@@ -325,23 +335,11 @@ class Component extends DCLogic {
       b.style.background = on ? '#0352BA' : 'transparent';
       b.style.color = on ? '#EDE9E4' : '#241E1A';
     });
-    // Both the labels and the values change with the mode: the two modes measure
-    // different things, so a fixed label set would mislabel half of them.
-    M.stats.forEach((s, i) => {
-      const lab = document.querySelector('[data-label="' + i + '"]');
-      const val = document.querySelector('[data-metric="' + i + '"]');
-      if (lab) lab.textContent = s.label;
-      if (val) { val.textContent = s.v; val.style.color = s.col; }
-    });
     const txt = (sel, v) => { const el = document.querySelector(sel); if (el) el.textContent = v; };
     txt('[data-chart-title]', M.title);
     txt('[data-chart-sub]', M.sub);
     txt('[data-legend="series"]', M.seriesLabel);
     txt('[data-legend="compare"]', M.compareLabel);
-    txt('[data-verdict-title]', M.vTitle);
-    txt('[data-verdict-text]', M.vTxt);
-    const band = document.querySelector('[data-verdict]');
-    if (band) band.style.background = M.band;
   }
 
   onMove(e) {
