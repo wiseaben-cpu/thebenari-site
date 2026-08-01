@@ -29,18 +29,39 @@ React 18 + ReactDOM from `unpkg.com` at runtime, so the pages need public intern
 excludes any directory whose name starts with `_` — without this empty file the entire `_ds/`
 design system 404s and the site renders unstyled.
 
-## Updating the site after a new Claude design export
+## The edit loop
 
-**Do not drag export files in by hand.** An export is missing `.nojekyll` (site renders
-unstyled without it), `CNAME` (custom domain detaches), and every `<head>` tag — and if the
-`_ds/<uuid>/` folder gets a new UUID, the old one lingers as dead weight. Use the script;
-it handles all four:
+This site is edited from two directions — visually in **Claude Design**, and directly in
+**code**. Both work, and neither clobbers the other.
+
+```
+   ┌─ design visually ─────────┐        ┌─ or edit the code directly ─┐
+   │ paste DESIGN-BRIEF.md     │        │ change the HTML/CSS in place│
+   │ into Claude Design        │        │ commit                      │
+   │ export the zip            │        └─────────────────────────────┘
+   └───────────┬───────────────┘                       │
+               ▼                                       │
+   ./scripts/sync-from-export.sh <zip>  ◄──── merges both sides together
+               ▼
+   preview locally → git push → live in ~1 min
+```
+
+### Designing in Claude Design
+
+Start every session by pasting in the brief, so the export stays merge-friendly:
+
+```bash
+./scripts/design-brief.sh | pbcopy    # rules + anything changed in code since last export
+```
+
+Then export the zip and sync it. **Drop the zip anywhere — including this folder**
+(`*.zip` is gitignored, and the sync script leaves it alone):
 
 ```bash
 cd ~/dev/thebenari-site
-git status                      # must be clean — the script refuses a dirty tree
-./scripts/sync-from-export.sh ~/Downloads/"<the new export>.zip"
-python3 -m http.server 8899     # preview at http://127.0.0.1:8899 before publishing
+git status                                        # must be clean — the script refuses a dirty tree
+./scripts/sync-from-export.sh "<the new export>.zip"
+python3 -m http.server 8899                       # preview at http://127.0.0.1:8899
 ```
 
 Then publish:
@@ -51,6 +72,29 @@ git add -A && git commit -m "design: <what changed>" && git push
 
 The script is idempotent — running it twice on the same export changes nothing.
 
+### Editing directly in code
+
+Just edit and commit. `.export-baseline/` holds a pristine copy of the last export, so the
+next sync three-way merges your edits back on top of the new design instead of overwriting
+them. **Don't edit `.export-baseline/` by hand** — the script maintains it.
+
+### If the sync reports a conflict
+
+A conflict means you and the design export changed *the same lines*. The script leaves
+standard conflict markers in place, lists the files, and **exits non-zero — the verify step
+fails, so a conflicted file can't be published by accident.** Open each file, search for
+`<<<<<<<`, keep the version you want, delete the markers, then re-verify:
+
+```
+<<<<<<< new export
+...what Claude Design produced...
+=======
+...what you changed in code...
+>>>>>>> your code edits
+```
+
+### Two files the export can't own
+
 **Page titles and social-preview text live in `scripts/page_meta.py`, not in the HTML.**
 The HTML is overwritten by every export; that file is not. Edit copy there, then re-run
 `python3 scripts/apply_meta.py`.
@@ -58,6 +102,9 @@ The HTML is overwritten by every export; that file is not. Edit copy there, then
 If a future export changes its `<head>` structure, `apply_meta.py` prints
 `SKIPPED … runtime anchor not found` and exits non-zero rather than silently publishing
 untitled pages — update `ANCHOR` in that script if that happens.
+
+`apply_meta.py --strip` is the exact inverse: it returns a page to raw-export form. The sync
+script uses it so merges compare like-for-like instead of colliding on injected `<head>` tags.
 
 ## Deploying
 

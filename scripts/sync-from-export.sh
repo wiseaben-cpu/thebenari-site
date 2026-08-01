@@ -78,6 +78,7 @@ echo "→ syncing into repo"
 rsync -a --delete \
   --exclude '.git/' \
   --exclude '.gitignore' \
+  --exclude '*.zip' \
   --exclude '.export-baseline/' \
   --exclude '.nojekyll' \
   --exclude 'CNAME' \

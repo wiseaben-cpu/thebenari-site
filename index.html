@@ -41,6 +41,43 @@ a:hover{text-decoration:none}
 @keyframes chatIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes chatDot{0%,60%,100%{opacity:.3}30%{opacity:1}}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+@media (max-width: 760px){
+  [data-nav]{padding:12px 20px !important;gap:14px !important}
+  [data-nav] > div{gap:16px !important;font-size:11px !important}
+  [data-nav] > div > a:not(:last-child){display:none !important}
+  [data-nav] > div > a:last-child{padding:0 18px !important;min-height:44px !important;display:inline-flex !important;align-items:center !important}
+  [data-stage]{height:210vh !important;margin-top:-68px !important}
+  [data-sticky]{padding-top:68px !important}
+  [data-sticky] > div:first-child{padding:24px 22px 56px !important;gap:22px !important}
+  [data-mark]{width:min(190px,44vw) !important}
+  [data-stage] h1{font-size:clamp(52px,17vw,88px) !important}
+  [data-stage] p{font-size:11px !important;letter-spacing:.18em !important}
+  [data-grow] img{width:min(120px,26vw) !important}
+  #currently,#about{padding:76px 22px !important;gap:36px !important}
+  #currently > div:last-child,#about > div{grid-template-columns:1fr !important;gap:26px !important}
+  #currently p,#about p{text-align:left !important}
+  #currently > div:first-of-type p{font-size:clamp(28px,7.6vw,40px) !important}
+  #currently img{right:-90px !important;top:-60px !important;width:70vw !important}
+  #about img{right:-70px !important;top:-50px !important;width:70vw !important}
+  #about h2{font-size:clamp(28px,8.4vw,48px) !important;max-width:none !important;overflow-wrap:break-word !important}
+  #currently p,#work h2,#work h3{overflow-wrap:break-word !important}
+  #work{padding:0 22px 84px !important;gap:52px !important}
+  #work header{gap:16px !important}
+  #work header h2{font-size:clamp(44px,14vw,72px) !important}
+  #work header > div{grid-template-columns:1fr !important;gap:10px !important}
+  #work header > div span{min-height:0 !important;padding:10px 14px !important;font-size:14px !important;align-items:center !important}
+  #work > a{grid-template-columns:1fr !important;gap:22px !important;padding-bottom:40px !important}
+  #work > a > [data-door],#work > a > [data-preview]{order:-1 !important}
+  #work > a h3{font-size:clamp(30px,8.6vw,44px) !important}
+  #work > a p{font-size:16px !important;max-width:none !important}
+  #work > a > div > div:first-child{flex-wrap:wrap !important;gap:8px !important}
+  [data-door]{padding:16px 16px 0 !important;gap:10px !important}
+  #about > div:last-of-type a{flex:1 1 auto !important;justify-content:center !important;display:inline-flex !important;align-items:center !important;min-height:44px !important}
+  footer{padding:76px 22px 28px !important;gap:44px !important}
+  footer > div:first-child{gap:36px !important}
+  footer > div:first-child > div{gap:36px !important}
+  footer > div:last-child{flex-direction:column !important;gap:8px !important}
+}
 </style>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0352BA"></rect><text x="50" y="60" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="900" letter-spacing="-1" fill="#EDE9E4" text-anchor="middle">BW</text></svg></template>
 </helmet>
