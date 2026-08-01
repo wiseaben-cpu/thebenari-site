@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/colors.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/typography.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/shape.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/tokens/motion.css">
+<link rel="stylesheet" href="_ds/thebenari-design-system-55844aa4-140a-4eb8-aef7-3ad1426228bc/styles.css">
+<style>
+body{margin:0;background:#EDE9E4}
+a{color:#0352BA;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:4px}
+@keyframes strike{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#EDE9E4;color:#241E1A;font-family:Archivo,'Helvetica Neue',Helvetica,sans-serif;-webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto 1fr auto">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 48px;border-bottom:2px solid #241E1A">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:12px;color:#241E1A">
+      <img src="assets/flock-ink.svg" alt="" style="width:22px;height:22px;object-fit:contain">
+      <span style="font-weight:900;font-size:14px;letter-spacing:-.035em;text-transform:uppercase">BenAri</span>
+    </a>
+    <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">02 — Tested to break</span>
+  </header>
+
+  <main style="max-width:1280px;width:100%;margin:0 auto;padding:44px 48px;box-sizing:border-box;display:grid;gap:32px;align-content:start">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px">
+      <h1 style="margin:0;font-weight:900;font-size:clamp(40px,4.6vw,72px);line-height:.86;letter-spacing:-.035em;text-transform:uppercase;max-width:20ch">Built a trading bot, then <span style="position:relative;white-space:nowrap">disproved<span aria-hidden="true" style="position:absolute;left:-1%;right:-1%;top:52%;height:6px;background:#E3170A;transform-origin:left;animation:strike 700ms 500ms cubic-bezier(.6,0,.2,1) both"></span></span> it</h1>
+      <div style="display:flex;gap:8px">
+        <button data-mode="ai" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:#0352BA;color:#EDE9E4;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">AI signals</button>
+        <button data-mode="mom" type="button" style="font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:14px 22px;min-height:44px;border-radius:999px;border:1px solid rgba(36,30,26,.14);background:transparent;color:#241E1A;cursor:pointer;transition:background 200ms,color 200ms" style-active="transform:scale(.985)">Momentum rebuild</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(36,30,26,.14);border:1px solid rgba(36,30,26,.14)">
+      <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">01 — Built it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em">62% win rate</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">LLM agents, live broker over MCP</span></div>
+      <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">02 — Tested it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em;color:#E3170A">IC 0.006</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">Bull-market beta, not skill</span></div>
+      <div style="background:#EDE9E4;padding:20px 22px;display:grid;gap:8px;align-content:start"><span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">03 — Rebuilt it</span><span style="font-weight:900;font-size:clamp(30px,3.2vw,46px);line-height:.9;letter-spacing:-.035em;color:#0352BA">IC 0.13</span><span style="font-size:14px;line-height:1.4;color:rgba(36,30,26,.55)">Momentum, holds out-of-sample</span></div>
+    </div>
+
+    <section style="background:#FBF4EF;border:1px solid rgba(36,30,26,.14);padding:26px 26px 22px;display:grid;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:16px">
+        <h2 style="margin:0;font-weight:900;font-size:18px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">Equity curve · strategy vs market</h2>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Walk-forward · net of 35 bps</span>
+      </div>
+
+      <div data-chart="1" style="position:relative;width:100%">
+        <svg data-svg="1" viewBox="0 0 920 420" preserveAspectRatio="none" aria-label="Equity curve" style="width:100%;height:auto;display:block;overflow:visible;font-family:Archivo,Helvetica,sans-serif"></svg>
+        <div data-tip="1" style="position:absolute;left:0;top:0;opacity:0;pointer-events:none;transition:opacity 120ms;background:#241E1A;color:#EDE9E4;padding:8px 11px;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;z-index:5"></div>
+      </div>
+
+      <div style="display:flex;gap:28px;flex-wrap:wrap;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">
+        <span style="display:inline-flex;align-items:center;gap:9px"><span style="display:block;width:24px;border-top:3px solid #0352BA"></span>Strategy</span>
+        <span style="display:inline-flex;align-items:center;gap:9px"><span style="display:block;width:24px;border-top:2px dashed rgba(36,30,26,.55)"></span>Market (S&amp;P 500)</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Total return</span><span data-metric="ret" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
+        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">Excess vs S&amp;P</span><span data-metric="exc" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
+        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">OOS info coefficient</span><span data-metric="ic" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
+        <div style="border:1px solid rgba(36,30,26,.14);padding:14px 16px;display:grid;gap:8px"><span style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">t-stat</span><span data-metric="t" style="font-weight:900;font-size:32px;line-height:1;letter-spacing:-.035em">—</span></div>
+      </div>
+
+      <div data-verdict="1" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 20px;background:#E3170A;color:#EDE9E4">
+        <span data-verdict-title="1" style="font-weight:900;font-size:19px;line-height:1;letter-spacing:-.03em;text-transform:uppercase">No edge</span>
+        <span data-verdict-text="1" style="font-size:14px;line-height:1.4">Win rate was bull-market beta, not skill.</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding:16px 48px;border-top:1px solid rgba(36,30,26,.14);font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(36,30,26,.55)">
+    <span>Illustrative sample data · not investment advice · the real system is a private repo</span>
+    <a href="index.html">← Back to the work</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:750}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.svg = document.querySelector('[data-svg]');
+    this.chart = document.querySelector('[data-chart]');
+    this.tip = document.querySelector('[data-tip]');
+    if (!this.svg) return;
+
+    this.market = [0,1.5,3,2,4.5,6,5,7,9,8,10.5,12,11,13,14.5,13.5,15,16.5,15.5,17,18,17.5,18.5,19,20];
+    this.series = {
+      ai:  [0,2.5,5,1.5,5.5,8,3,6.5,10,4,8.5,12.5,6,9.5,13,5,9,13.5,7,11.5,15,9.5,13.5,16.5,18],
+      mom: [0,4,7,6,11,16,13,19,25,23,31,38,35,44,53,49,60,70,65,76,86,83,96,106,115]
+    };
+    this.meta = {
+      ai: { ret: '+18%', exc: '−2%', excCol: '#E3170A', ic: '0.006', t: '0.4', title: 'No edge', txt: 'Win rate was bull-market beta, not skill.', band: '#E3170A' },
+      mom: { ret: '+115%', exc: '+95%', excCol: '#0352BA', ic: '0.13', t: '8.2', title: 'Edge holds out-of-sample', txt: 'The momentum signal survives the holdout.', band: '#0352BA' }
+    };
+
+    this.NS = 'http://www.w3.org/2000/svg';
+    this.W = 920; this.H = 420; this.L = 62; this.R = 20; this.T = 20; this.B = 40;
+    this.pw = this.W - this.L - this.R; this.ph = this.H - this.T - this.B;
+    this.n = this.market.length; this.yMax = 120;
+
+    this.buildStatic();
+    document.querySelectorAll('[data-mode]').forEach((b) => {
+      b.addEventListener('click', () => this.setMode(b.getAttribute('data-mode'), true));
+    });
+    this.chart.addEventListener('mousemove', (e) => this.onMove(e));
+    this.chart.addEventListener('mouseleave', () => { this.hover.style.opacity = '0'; this.tip.style.opacity = '0'; });
+    this.setMode('ai', !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  el(tag, attrs) {
+    const e = document.createElementNS(this.NS, tag);
+    Object.keys(attrs || {}).forEach((k) => e.setAttribute(k, attrs[k]));
+    return e;
+  }
+  xAt(i) { return this.L + i * (this.pw / (this.n - 1)); }
+  yAt(v) { return this.T + this.ph - (v / this.yMax) * this.ph; }
+  path(arr) { return arr.map((v, i) => (i ? 'L' : 'M') + this.xAt(i).toFixed(1) + ' ' + this.yAt(v).toFixed(1)).join(' '); }
+
+  buildStatic() {
+    const g = this.el('g', {});
+    [0, 30, 60, 90, 120].forEach((v) => {
+      g.appendChild(this.el('line', { x1: this.L, y1: this.yAt(v), x2: this.W - this.R, y2: this.yAt(v), stroke: v === 0 ? 'rgba(36,30,26,.55)' : 'rgba(36,30,26,.14)', 'stroke-width': 1 }));
+      const t = this.el('text', { x: this.L - 12, y: this.yAt(v) + 4, 'text-anchor': 'end', fill: 'rgba(36,30,26,.55)', 'font-size': 11, 'font-weight': 500, 'letter-spacing': '.09em' });
+      t.textContent = v + '%';
+      g.appendChild(t);
+    });
+    [0, 4, 8, 12, 16, 20, 24].forEach((i) => {
+      const t = this.el('text', { x: this.xAt(i), y: this.H - this.B + 24, 'text-anchor': 'middle', fill: 'rgba(36,30,26,.55)', 'font-size': 11, 'font-weight': 500, 'letter-spacing': '.09em' });
+      t.textContent = 'M' + i;
+      g.appendChild(t);
+    });
+    this.svg.appendChild(g);
+    this.svg.appendChild(this.el('path', { d: this.path(this.market), fill: 'none', stroke: 'rgba(36,30,26,.55)', 'stroke-width': 2, 'stroke-dasharray': '5 5' }));
+
+    this.area = this.el('path', { fill: '#0352BA', opacity: 0.1 });
+    this.line = this.el('path', { fill: 'none', stroke: '#0352BA', 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+    this.svg.appendChild(this.area);
+    this.svg.appendChild(this.line);
+
+    this.hover = this.el('g', { opacity: 0 });
+    this.cross = this.el('line', { y1: this.T, y2: this.T + this.ph, stroke: 'rgba(36,30,26,.55)', 'stroke-dasharray': '3 3' });
+    this.dotM = this.el('circle', { r: 4, fill: 'rgba(36,30,26,.55)', stroke: '#FBF4EF', 'stroke-width': 2 });
+    this.dotS = this.el('circle', { r: 5.5, fill: '#0352BA', stroke: '#FBF4EF', 'stroke-width': 2 });
+    this.hover.appendChild(this.cross);
+    this.hover.appendChild(this.dotM);
+    this.hover.appendChild(this.dotS);
+    this.svg.appendChild(this.hover);
+  }
+
+  setMode(mode, animate) {
+    const arr = this.series[mode] || this.series.ai;
+    const M = this.meta[mode] || this.meta.ai;
+    this.cur = arr;
+    this.line.setAttribute('d', this.path(arr));
+    this.area.setAttribute('d', this.path(arr) + ' L' + this.xAt(this.n - 1) + ' ' + this.yAt(0) + ' L' + this.xAt(0) + ' ' + this.yAt(0) + ' Z');
+    if (animate) {
+      const len = this.line.getTotalLength();
+      this.line.style.transition = 'none';
+      this.line.style.strokeDasharray = len;
+      this.line.style.strokeDashoffset = len;
+      this.area.style.opacity = '0';
+      this.line.getBoundingClientRect();
+      this.line.style.transition = 'stroke-dashoffset 900ms cubic-bezier(.16,.84,.44,1)';
+      this.line.style.strokeDashoffset = '0';
+      this.area.style.transition = 'opacity 420ms 240ms';
+      this.area.style.opacity = '.1';
+    }
+    document.querySelectorAll('[data-mode]').forEach((b) => {
+      const on = b.getAttribute('data-mode') === mode;
+      b.style.background = on ? '#0352BA' : 'transparent';
+      b.style.color = on ? '#EDE9E4' : '#241E1A';
+    });
+    const set = (k, v, col) => {
+      const el = document.querySelector('[data-metric="' + k + '"]');
+      if (!el) return;
+      el.textContent = v;
+      if (col) el.style.color = col;
+    };
+    set('ret', M.ret);
+    set('exc', M.exc, M.excCol);
+    set('ic', M.ic);
+    set('t', M.t);
+    const band = document.querySelector('[data-verdict]');
+    if (band) band.style.background = M.band;
+    const bt = document.querySelector('[data-verdict-title]');
+    if (bt) bt.textContent = M.title;
+    const bx = document.querySelector('[data-verdict-text]');
+    if (bx) bx.textContent = M.txt;
+  }
+
+  onMove(e) {
+    const r = this.svg.getBoundingClientRect();
+    const rel = (e.clientX - r.left) / r.width * this.W;
+    let i = Math.round((rel - this.L) / (this.pw / (this.n - 1)));
+    i = Math.max(0, Math.min(this.n - 1, i));
+    const x = this.xAt(i);
+    this.hover.setAttribute('opacity', 1);
+    this.hover.style.opacity = '1';
+    this.cross.setAttribute('x1', x);
+    this.cross.setAttribute('x2', x);
+    this.dotS.setAttribute('cx', x);
+    this.dotS.setAttribute('cy', this.yAt(this.cur[i]));
+    this.dotM.setAttribute('cx', x);
+    this.dotM.setAttribute('cy', this.yAt(this.market[i]));
+    this.tip.style.opacity = '1';
+    this.tip.textContent = 'M' + i + ' · strategy ' + this.cur[i] + '% · market ' + this.market[i] + '%';
+    const px = (x / this.W) * r.width;
+    this.tip.style.left = Math.min(Math.max(px, 90), r.width - 90) + 'px';
+    this.tip.style.top = (this.yAt(Math.max(this.cur[i], this.market[i])) / this.H * r.height - 44) + 'px';
+    this.tip.style.transform = 'translateX(-50%)';
+  }
+}
+</script>
+</body>
+</html>

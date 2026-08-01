@@ -4,10 +4,16 @@
 Design exports have no <title> and no social tags. Run this after every sync; it
 inserts the block from page_meta.py, replacing any block a previous run added.
 Safe to run repeatedly — the second run is a no-op.
+
+With --strip it does the exact opposite: removes everything this script adds,
+returning a page to the byte-identical form the design export shipped. That
+inverse is what lets sync-from-export.sh three-way merge against a raw export —
+without it, every merge would collide on the injected <head> block.
 """
 
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -47,6 +53,34 @@ def block(meta: dict) -> str:
     return "\n".join(lines)
 
 
+def unapply(html: str) -> str:
+    """Remove everything apply_to() adds. The inverse of the two edits below.
+
+    The lang="en" revert is conditional on the generated block being present:
+    apply_to() only ever touches pages in PAGES, and some export pages (the
+    race-board ones) ship lang="en" of their own. Reverting unconditionally
+    would corrupt those.
+    """
+    stripped = re.sub(
+        re.escape(START) + r".*?" + re.escape(END) + r"\n?",
+        "",
+        html,
+        flags=re.DOTALL,
+    )
+    if stripped == html:
+        return html
+    return re.sub(r'<html lang="en"((?:[^>]*)?)>', r"<html\1>", stripped, count=1)
+
+
+def strip_file(path: Path) -> str:
+    html = path.read_text(encoding="utf-8")
+    stripped = unapply(html)
+    if stripped == html:
+        return f"unchanged  {path.name}"
+    path.write_text(stripped, encoding="utf-8")
+    return f"stripped   {path.name}"
+
+
 def apply_to(path: Path, meta: dict) -> str:
     html = path.read_text(encoding="utf-8")
     original = html
@@ -75,7 +109,33 @@ def apply_to(path: Path, meta: dict) -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--strip",
+        action="store_true",
+        help="remove generated metadata instead of adding it (export form)",
+    )
+    parser.add_argument(
+        "files",
+        nargs="*",
+        type=Path,
+        help="files to strip; defaults to the repo's pages. --strip only.",
+    )
+    args = parser.parse_args()
+
     root = Path(__file__).resolve().parent.parent
+
+    if args.strip:
+        targets = args.files or [root / name for name in PAGES]
+        for path in targets:
+            if path.exists():
+                print(strip_file(path))
+        return 0
+
+    if args.files:
+        print("ERROR: file arguments are only supported with --strip", file=sys.stderr)
+        return 2
+
     missing = [name for name in PAGES if not (root / name).exists()]
     failures = []
 

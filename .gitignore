@@ -1,0 +1,6 @@
+# Claude Design exports get dropped straight into this folder. They're the
+# *input* to scripts/sync-from-export.sh, never something to publish — and an
+# untracked zip would otherwise trip the script's dirty-tree guard.
+*.zip
+
+.DS_Store

@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-30T14:20:00",
+  "mock": true,
+  "week": {
+    "start": "2026-07-27",
+    "end": "2026-07-31",
+    "pace_pct": 0.60,
+    "company": { "pct": 0.62, "deals": 14 }
+  },
+  "heats": [
+    {
+      "id": "buyers",
+      "label": "Buyers",
+      "last_winner": { "name": "Priya Rao", "pct": 1.42 },
+      "racers": [
+        { "id": "avachen",     "name": "Ava Chen",      "initials": "AC", "color": "#ff4d4f", "pct": 1.18, "deals": 4, "agp": 25900, "goal_source": "stated" },
+        { "id": "marcusbell",  "name": "Marcus Bell",   "initials": "MB", "color": "#ffa53d", "pct": 0.82, "deals": 3, "agp": 24600, "goal_source": "stated" },
+        { "id": "priyarao",    "name": "Priya Rao",     "initials": "PR", "color": "#ffd166", "pct": 0.95, "deals": 2, "agp": 14250, "goal_source": "stated" },
+        { "id": "diegosantos", "name": "Diego Santos",  "initials": "DS", "color": "#06d6a0", "pct": 0.61, "deals": 2, "agp": 10980, "goal_source": "stated" },
+        { "id": "norakelly",   "name": "Nora Kelly",    "initials": "NK", "color": "#4cc9f0", "pct": 0.44, "deals": 1, "agp": 5280,  "goal_source": "stated" },
+        { "id": "samokafor",   "name": "Sam Okafor",    "initials": "SO", "color": "#4895ef", "pct": 0.30, "deals": 1, "agp": 7500,  "goal_source": "stated" },
+        { "id": "lenavogt",    "name": "Lena Vogt",     "initials": "LV", "color": "#b5179e", "pct": 0.15, "deals": 1, "agp": 1500,  "goal_source": "stated" },
+        { "id": "tariqhassan", "name": "Tariq Hassan",  "initials": "TH", "color": "#9d4edd", "pct": 0.00, "deals": 0, "agp": 0,     "goal_source": "stated" }
+      ]
+    },
+    {
+      "id": "ams",
+      "label": "Account Managers",
+      "last_winner": { "name": "Owen Pryce", "pct": 1.21 },
+      "racers": [
+        { "id": "rubyford",    "name": "Ruby Ford",     "initials": "RF", "color": "#ff4d4f", "pct": 1.05, "deals": 5, "agp": 39900, "goal_source": "stated" },
+        { "id": "owenpryce",   "name": "Owen Pryce",    "initials": "OP", "color": "#ffa53d", "pct": 0.73, "deals": 3, "agp": 23360, "goal_source": "stated" },
+        { "id": "meilin",      "name": "Mei Lin",       "initials": "ML", "color": "#ffd166", "pct": 0.88, "deals": 3, "agp": 18480, "goal_source": "stated" },
+        { "id": "jordanpike",  "name": "Jordan Pike",   "initials": "JP", "color": "#06d6a0", "pct": 0.55, "deals": 2, "agp": 7150,  "goal_source": "stated" },
+        { "id": "inescosta",   "name": "Ines Costa",    "initials": "IC", "color": "#4cc9f0", "pct": 0.40, "deals": 2, "agp": 10000, "goal_source": "stated" },
+        { "id": "kofimensah",  "name": "Kofi Mensah",   "initials": "KM", "color": "#4895ef", "pct": 0.28, "deals": 1, "agp": 8400,  "goal_source": "stated" },
+        { "id": "claraboyd",   "name": "Clara Boyd",    "initials": "CB", "color": "#b5179e", "pct": 0.12, "deals": 1, "agp": 1080,  "goal_source": "stated" },
+        { "id": "rafenolan",   "name": "Rafe Nolan",    "initials": "RN", "color": "#9d4edd", "pct": 0.00, "deals": 0, "agp": 0,     "goal_source": "stated" }
+      ]
+    }
+  ],
+  "events": []
+}
