@@ -2,14 +2,34 @@
 
 > Read automatically at the start of every session in this repo. Keep it short and authoritative.
 
+## ⚠️ This file wins inside this folder
+
+This repo sits **nested inside the `benji.ai` checkout** (`~/dev/benji.ai/thebenari-site`) purely
+for convenience. It is a **separate git repo with its own remote**, gitignored by the parent — the
+two never share history.
+
+Because Claude Code reads `CLAUDE.md` from the working directory upward, the parent's
+`benji.ai/CLAUDE.md` also loads here. **Where they disagree, this file governs anything under this
+folder.** The one that actually bites:
+
+| Topic | `benji.ai` says | **Here** |
+|---|---|---|
+| Git workflow | never commit to `main`; branch + PR always | **commit to `main` directly; there is no PR flow** |
+| Pushing | routine, reversible | **push IS the production deploy** — owner's call |
+
+Everything else in the parent (how to talk to the owner, no secrets, keep docs current) still
+applies. Anything about the orchestrator, MCP servers, Postgres, Railway, or the agent registry is
+irrelevant here — this is a static website.
+
 ## What this is
 
 The public portfolio site for Benji Wise, live at **https://thebenari.com**. Static files, **no
 build step** — what's committed is what ships, served by GitHub Pages from `main` at the repo root.
 
-Deliberately **separate from the `benji.ai` repo** (`~/dev/benji.ai`). That repo is private and
-tracks CRM notes, journals, and secrets; this one *must* be public, because GitHub Pages won't
-serve a private repo on the free plan. **Never merge them, and never nest one inside the other.**
+Deliberately a **separate repo** from `benji.ai`, even though it sits inside that folder. That one
+is private and tracks CRM notes, journals, and secrets; this one *must* be public, because GitHub
+Pages won't serve a private repo on the free plan. Nesting on disk is fine — **merging the two
+repos is not**, in either direction.
 
 ## Working with the owner
 
