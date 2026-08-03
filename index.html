@@ -7,9 +7,11 @@
 <!-- TEMPORARY LANDING PAGE.
      This replaces the real portfolio landing page. To put it back:
 
-         git checkout HEAD -- index.html && python3 scripts/apply_meta.py
+         git checkout real-landing-page -- index.html && python3 scripts/apply_meta.py
+         git commit -am "restore the real landing page" && git push
 
-     (or `git checkout <commit-before-this-one> -- index.html` once it is committed)
+     The `real-landing-page` tag points at the last commit where index.html was the
+     genuine portfolio page, so restoring never depends on remembering a SHA.
 
      Deliberately standalone: no support.js, no design-system CSS, no generated
      <head> block. That last part matters — the real page's JSON-LD describes a
