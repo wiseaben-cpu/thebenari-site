@@ -67,9 +67,6 @@ def block(meta: dict) -> str:
         # Search Console ownership. Emitted on every page so the property stays
         # verified even if the site root is not the URL Google re-checks.
         f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">',
-        # Shared-password gate. Lives here rather than in the page body because
-        # design exports overwrite the body; this block is re-applied after every sync.
-        '<script src="gate.js"></script>',
         f'<link rel="canonical" href="{meta["url"]}">',
         f'<link rel="icon" href="{FAVICON}" type="image/svg+xml">',
         f'<meta property="og:type" content="{meta["og_type"]}">',
