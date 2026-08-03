@@ -36,7 +36,6 @@ PROTECTED=(
   '.nojekyll' 'CNAME'                 # absence breaks hosting outright
   'README.md' 'DESIGN-BRIEF.md' 'CLAUDE.md' 'scripts/'
   'robots.txt' 'sitemap.xml' 'llms.txt'   # crawler files, hand-authored
-  'gate.js'                               # password gate, referenced from the generated <head>
   'assets/og-*.png'                       # social cards, hand-drawn
 )
 
