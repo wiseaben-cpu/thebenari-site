@@ -35,16 +35,24 @@
     return s.substring(0, s.indexOf('assets/') + 7);
   }
 
+  function vpH() {
+    return (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  }
+  function birdSize() {
+    var w = window.innerWidth;
+    return w < 760 ? Math.round(w * 0.26) : Math.min(190, Math.round(w * 0.15));
+  }
+
   function makeBirdRow(tone) {
-    var base = assetBase();
+    var base = assetBase(), size = birdSize();
     var row = document.createElement('div');
-    row.style.cssText = 'position:absolute;left:0;top:50%;width:100vw;transform:translateY(-50%);' +
+    row.style.cssText = 'position:absolute;left:0;top:50%;width:100%;transform:translateY(-50%);' +
       'display:flex;align-items:center;justify-content:space-evenly;padding:0 4vw;box-sizing:border-box;';
     BIRDS.forEach(function (name, i) {
       var img = document.createElement('img');
       img.src = base + 'birds/' + name + '-' + tone + '.svg';
       img.alt = '';
-      img.style.cssText = 'width:min(190px,15vw);object-fit:contain;will-change:transform;' +
+      img.style.cssText = 'width:' + size + 'px;object-fit:contain;will-change:transform;' +
         'transform:translateY(0);' + (i === 1 ? 'align-self:flex-start;' : '');
       row.appendChild(img);
     });
@@ -94,7 +102,7 @@
     row.style.opacity = '0';
     o.curtain.appendChild(row);
 
-    var vh = window.innerHeight;
+    var vh = vpH();
     requestAnimationFrame(function () {
       o.curtain.style.transition = 'width 300ms cubic-bezier(.2,0,0,1)';
       o.curtain.style.width = '100%';
@@ -130,7 +138,7 @@
 
   /* ---- arriving: the window really scrolls down off the field, birds keep falling ---- */
   function arrive(state) {
-    var vh = window.innerHeight;
+    var vh = vpH();
     var bg = state.bg || ownBg();
 
     // a real block of destination colour sitting above the page, so the reveal
