@@ -23,6 +23,14 @@ ZIP="${1:-}"
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BASELINE="$REPO/.export-baseline"
 
+# The custom domain GitHub Pages serves, and the sole contents of CNAME. Defined once
+# because it appears in two places below — the recreate fallback and the verify check —
+# and in August 2026 the site moved from thebenari.com to benjiwise.com with only CNAME
+# itself updated. That left the fallback ready to rewrite CNAME to the *old* domain
+# (which now 404s, detaching the live site) and the verify check failing on every sync.
+# A guard that always fails is a guard everyone learns to ignore. Change it here only.
+SITE_DOMAIN="benjiwise.com"
+
 # Paths the export does not own. rsync --delete would otherwise remove them, because
 # "absent from the export" and "should be deleted" look identical to it. Everything here
 # is authored in the repo, not by Claude Design.
@@ -129,7 +137,7 @@ rsync -a --delete "${excludes[@]}" "$SRC"/ "$REPO"/
 
 # Belt and braces: recreate the two files whose absence breaks the live site.
 [[ -f "$REPO/.nojekyll" ]] || { : > "$REPO/.nojekyll"; echo "  recreated .nojekyll"; }
-[[ -f "$REPO/CNAME" ]] || { echo "thebenari.com" > "$REPO/CNAME"; echo "  recreated CNAME"; }
+[[ -f "$REPO/CNAME" ]] || { echo "$SITE_DOMAIN" > "$REPO/CNAME"; echo "  recreated CNAME"; }
 
 # Three-way merge: reapply code-side edits on top of the new export. The repo now
 # holds the export verbatim, so merging {mine, baseline, repo} into the repo file
@@ -180,7 +188,7 @@ fail=0
 for f in .nojekyll CNAME index.html support.js; do
   [[ -e "$REPO/$f" ]] || { echo "  MISSING: $f" >&2; fail=1; }
 done
-grep -q '^thebenari\.com$' "$REPO/CNAME" || { echo "  CNAME content wrong" >&2; fail=1; }
+grep -qx "$SITE_DOMAIN" "$REPO/CNAME" || { echo "  CNAME is not $SITE_DOMAIN" >&2; fail=1; }
 for f in index.html benari.html signal-desk.html; do
   [[ -f "$REPO/$f" ]] && { grep -q '<title>' "$REPO/$f" || { echo "  no <title> in $f" >&2; fail=1; }; }
 done
