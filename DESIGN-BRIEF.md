@@ -1,4 +1,4 @@
-# Claude Design brief — thebenari.com
+# Claude Design brief — benjiwise.com
 
 **Paste everything under "Standing rules" into Claude Design at the start of a design session.**
 It tells the designer about constraints it can't see, so its export drops cleanly into this repo
@@ -17,7 +17,7 @@ redesigning around edits it doesn't know exist.
 
 ## Standing rules
 
-> This design is published as a static site at **thebenari.com**, from a git repo. It gets edited
+> This design is published as a static site at **benjiwise.com**, from a git repo. It gets edited
 > from two directions: visually by you, and directly in code. A tool merges your export with the
 > code-side edits, and that merge only works if you follow these:
 >

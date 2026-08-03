@@ -23,7 +23,7 @@ irrelevant here — this is a static website.
 
 ## What this is
 
-The public portfolio site for Benji Wise, live at **https://thebenari.com**. Static files, **no
+The public portfolio site for Benji Wise, live at **https://benjiwise.com**. Static files, **no
 build step** — what's committed is what ships, served by GitHub Pages from `main` at the repo root.
 
 Deliberately a **separate repo** from `benji.ai`, even though it sits inside that folder. That one
@@ -52,7 +52,7 @@ customer or contact data, or anything copied out of the `benji.ai` vault (`CRM/`
 - **`.nojekyll` must stay in the repo root.** GitHub Pages runs Jekyll by default, and Jekyll
   excludes any directory starting with `_` — without this file the entire `_ds/` design system
   404s and the site renders unstyled.
-- **`CNAME` must stay, containing `thebenari.com`.** Remove it and the custom domain detaches.
+- **`CNAME` must stay, containing `benjiwise.com`.** Remove it and the custom domain detaches.
   GitHub itself sometimes commits `Delete CNAME` / `Create CNAME` pairs — that's normal; rebase
   onto them rather than fighting it.
 - **`<head>` metadata lives in `scripts/page_meta.py`, never in the HTML.** Exports overwrite the
@@ -61,8 +61,12 @@ customer or contact data, or anything copied out of the `benji.ai` vault (`CRM/`
   files above, drops files the export removed, three-way merges code-side edits, and re-applies
   metadata. Doing it by hand silently breaks the live site.
 - **Never edit `.export-baseline/` by hand.** The sync script owns it; it's the merge base.
-- **DNS lives at GoDaddy and the domain carries live Google Workspace email.** Only ever touch
-  `A`/`CNAME` records — never `MX` or `TXT`.
+- **Two domains, and only one of them carries email.** Both are registered at GoDaddy.
+  - `benjiwise.com` — the live site. Apex `A` → the four GitHub Pages IPs, `www` CNAME →
+    `wiseaben-cpu.github.io`. No `MX`; nothing to break.
+  - `thebenari.com` — the former domain, kept pointing at Pages so GitHub 301-redirects it here.
+    It carries **live Google Workspace email** (`aspmx.l.google.com`). Never touch its `MX` or
+    `TXT` records, and **never let it lapse** — the site moving off it did not move the mailbox.
 
 ## The edit loop
 
@@ -107,7 +111,7 @@ locally first.
 
 - **The pages are NOT blank without JavaScript** — a long-standing note here claimed they were,
   and it was wrong. `support.js` adds behavior, not copy; the text ships in the static HTML and
-  non-JS crawlers read it fine. Check with `curl -A ClaudeBot https://thebenari.com/` before
+  non-JS crawlers read it fine. Check with `curl -A ClaudeBot https://benjiwise.com/` before
   believing otherwise, because that one wrong belief makes all SEO work look pointless.
 - `robots.txt`, `sitemap.xml`, `llms.txt` live at the repo root. `robots.txt` opens the site to
   AI crawlers **on purpose** — being quoted by a model is the goal here.

@@ -11,7 +11,7 @@ credential, a job title, or a profile URL the page itself doesn't state.
 """
 
 SITE_NAME = "The BenAri"
-BASE = "https://thebenari.com"
+BASE = "https://benjiwise.com"
 FAVICON = "assets/flock-blue.svg"  # blue reads on both light and dark tab bars
 
 # One node, referenced from all three pages, so scrapers merge the project pages
@@ -52,7 +52,7 @@ PAGES = {
         "og_type": "website",
         "og_image": "assets/og-index.png",
         "og_image_alt": (
-            "Share card for thebenari.com: Benji Wise — collecting knowledge, "
+            "Share card for benjiwise.com: Benji Wise — collecting knowledge, "
             "connecting dots."
         ),
         "jsonld": {

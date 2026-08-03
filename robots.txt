@@ -1,4 +1,4 @@
-# robots.txt — thebenari.com
+# robots.txt — benjiwise.com
 #
 # This site is a portfolio. Being read, quoted, indexed, and trained on is the
 # point: if someone asks a model "who is Benji Wise" or "what is Benari", the
@@ -64,4 +64,4 @@ Allow: /
 User-agent: meta-externalagent
 Allow: /
 
-Sitemap: https://thebenari.com/sitemap.xml
+Sitemap: https://benjiwise.com/sitemap.xml

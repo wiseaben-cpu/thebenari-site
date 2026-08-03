@@ -1,6 +1,6 @@
-# thebenari.com
+# benjiwise.com
 
-The public portfolio site for Benji Wise, served at **https://thebenari.com** by GitHub Pages
+The public portfolio site for Benji Wise, served at **https://benjiwise.com** by GitHub Pages
 from the `main` branch root.
 
 Source of these pages: a static bundle designed in Claude Code (`Landing page portfolio plan.zip`,
@@ -110,10 +110,17 @@ script uses it so merges compare like-for-like instead of colliding on injected 
 
 Push to `main`. GitHub Pages rebuilds automatically, usually within a minute.
 
-`CNAME` pins the custom domain to `thebenari.com`; leave it in place or the domain detaches on
-the next push. DNS lives at GoDaddy (apex `A` records → GitHub Pages IPs, `www` CNAME →
-`wiseaben-cpu.github.io`). The domain also carries **live Google Workspace email** — never touch
-its `MX` or `TXT` records while editing DNS.
+`CNAME` pins the custom domain to `benjiwise.com`; leave it in place or the domain detaches on
+the next push. Both domains are registered at GoDaddy:
+
+| Domain | Role | DNS | Email |
+|---|---|---|---|
+| `benjiwise.com` | the live site | apex `A` → the four GitHub Pages IPs, `www` CNAME → `wiseaben-cpu.github.io` | none |
+| `thebenari.com` | former domain, 301s here | left pointing at Pages so GitHub redirects it | **live Google Workspace** |
+
+**`thebenari.com` still carries the mailbox.** Moving the site off it in August 2026 did not move
+the email. Never touch its `MX` or `TXT` records, and never let the registration lapse — losing it
+loses the mail, not just a redirect.
 
 ## Known gaps
 
@@ -135,7 +142,7 @@ Two things that are easy to get wrong:
 
 - **The pages are NOT blank without JavaScript.** `support.js` adds behavior, not copy —
   the text is in the static HTML and crawlers that don't run JS still read it. Verify with
-  `curl -A ClaudeBot https://thebenari.com/` before assuming otherwise.
+  `curl -A ClaudeBot https://benjiwise.com/` before assuming otherwise.
 - **`scripts/page_meta.py` now requires `og_image`, `og_image_alt` and `jsonld` on every
   page.** `apply_meta.py` raises `KeyError` if one is missing — deliberately loud, since a
   silently absent tag is an invisible regression. Add all three when you add a page.
