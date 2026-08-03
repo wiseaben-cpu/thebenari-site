@@ -3,8 +3,12 @@
 The public portfolio site for Benji Wise, served at **https://benjiwise.com** by GitHub Pages
 from the `main` branch root.
 
-Source of these pages: a static bundle designed in Claude Code (`Landing page portfolio plan.zip`,
-2026-07-29). There is **no build step** — what's committed is what ships.
+Source of these pages: a static bundle designed in Claude Design, synced in via
+`scripts/sync-from-export.sh`. There is **no build step** — what's committed is what ships.
+
+**`signal-desk.html` publishes real trading performance** from a live brokerage account. The
+figures and the disclosure text around them are factual claims, not copy — see the invariant in
+[CLAUDE.md](CLAUDE.md) before editing that page.
 
 ## Pages
 
@@ -14,9 +18,11 @@ Source of these pages: a static bundle designed in Claude Code (`Landing page po
 | `benari.html` | Benari — the AI chief of staff project |
 | `signal-desk.html` | Signal Desk — the trading project |
 | `race-board/` | Interactive sales-race-board demo (embedded in `index.html` and linked) |
-| `assets/` | SVG marks |
+| `assets/` | SVG marks and the `og-*.png` social cards |
 | `_ds/` | Design-system tokens, CSS, and JS bundle |
 | `support.js` | Client-side runtime the pages depend on (see below) |
+| `page-transition.js` | Page-to-page transition; intercepts same-origin link clicks |
+| `robots.txt` · `sitemap.xml` · `llms.txt` | Crawler files, hand-authored (not from exports) |
 
 ## Two things not to break
 
@@ -116,11 +122,15 @@ the next push. Both domains are registered at GoDaddy:
 | Domain | Role | DNS | Email |
 |---|---|---|---|
 | `benjiwise.com` | the live site | apex `A` → the four GitHub Pages IPs, `www` CNAME → `wiseaben-cpu.github.io` | none |
-| `thebenari.com` | former domain, 301s here | left pointing at Pages so GitHub redirects it | **live Google Workspace** |
+| `thebenari.com` | former domain, **404s** | still aimed at Pages, but Pages serves only the `CNAME` domain | **live Google Workspace** |
+
+`thebenari.com` **does not redirect** — GitHub Pages serves only the domain named in `CNAME` and
+errors on anything else pointed at its IPs. Old links to it are dead. A redirect would need
+GoDaddy domain forwarding, which changes only its `A` records.
 
 **`thebenari.com` still carries the mailbox.** Moving the site off it in August 2026 did not move
 the email. Never touch its `MX` or `TXT` records, and never let the registration lapse — losing it
-loses the mail, not just a redirect.
+loses the mail, not just a link.
 
 ## Known gaps
 
@@ -129,8 +139,12 @@ loses the mail, not just a redirect.
   Babel alone is ~2.5 MB, so first paint waits on a third-party CDN — the site's main
   Core Web Vitals liability. Fixing it means changing how the export bundles, which
   fights the design-sync loop, so measure in PageSpeed Insights before touching it.
-- Not yet verified in Google Search Console — no impression or coverage data exists
-  until the property is claimed (see below).
+- **`assets/og-signal-desk.png` is stale** — it still advertises the old "walk-forward /
+  sample data" framing against a page that now reports a real loss, so link previews
+  contradict the page. Needs a hand redraw at 1200×630.
+- Search Console is claimed and the sitemap is submitted, but nothing is indexed yet: the
+  domain is only days old and all three URLs read "Discovered — currently not indexed".
+  Expect roughly a week before performance data means anything.
 
 ## Search and AI discoverability
 
@@ -154,3 +168,9 @@ itself doesn't state.
 
 Social cards are `assets/og-*.png`, 1200×630, regenerate-by-hand (no script). If you change
 a page title, the card still says the old one.
+
+Ownership of the Search Console property is proved by `GOOGLE_SITE_VERIFICATION` in
+`page_meta.py`, emitted into every page's `<head>`. It is **not** a `google*.html` file at the
+root on purpose — the sync's `rsync --delete` removes root files an export doesn't contain, so
+the file form would vanish on the next design export and silently un-verify the property.
+Deleting that constant un-verifies it too.
