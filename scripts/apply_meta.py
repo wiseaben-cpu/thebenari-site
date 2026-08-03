@@ -21,7 +21,13 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from page_meta import BASE, FAVICON, PAGES, SITE_NAME  # noqa: E402
+from page_meta import (  # noqa: E402
+    BASE,
+    FAVICON,
+    GOOGLE_SITE_VERIFICATION,
+    PAGES,
+    SITE_NAME,
+)
 
 START = "<!-- BEGIN generated head metadata (scripts/apply_meta.py) -->"
 END = "<!-- END generated head metadata -->"
@@ -58,6 +64,9 @@ def block(meta: dict) -> str:
         START,
         f"<title>{esc(meta['title'])}</title>",
         f'<meta name="description" content="{esc(meta["description"])}">',
+        # Search Console ownership. Emitted on every page so the property stays
+        # verified even if the site root is not the URL Google re-checks.
+        f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">',
         f'<link rel="canonical" href="{meta["url"]}">',
         f'<link rel="icon" href="{FAVICON}" type="image/svg+xml">',
         f'<meta property="og:type" content="{meta["og_type"]}">',

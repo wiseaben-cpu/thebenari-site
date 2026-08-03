@@ -14,6 +14,13 @@ SITE_NAME = "The BenAri"
 BASE = "https://benjiwise.com"
 FAVICON = "assets/flock-blue.svg"  # blue reads on both light and dark tab bars
 
+# Google Search Console ownership proof. Deliberately here rather than in a
+# google*.html file at the repo root: the sync script's rsync --delete removes root
+# files an export doesn't contain, so the file form would vanish on the next design
+# export. This rides inside the generated <head>, which apply_meta.py re-applies
+# after every sync. Removing it un-verifies the property — leave it in place.
+GOOGLE_SITE_VERIFICATION = "zuRqiC-9K5tdOQjKX2ikIfdAz5q7eIVNVeMeqcQYP_w"
+
 # One node, referenced from all three pages, so scrapers merge the project pages
 # into the same author entity instead of inventing three Benji Wises.
 PERSON_ID = f"{BASE}/#benji-wise"
